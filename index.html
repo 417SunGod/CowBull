@@ -3,23 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#1e293b" />
+  <meta name="theme-color" content="#1e293b" id="meta-theme-color" />
   <link rel="manifest" href="manifest.json" />
   <title>Bulls & Cows</title>
   <style>
-    :root {
+    /* Default: Blue Theme */
+    :root, [data-theme="blue"] {
       --bg: #0f172a;
       --card-bg: #1e293b;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --border: #334155;
       --accent: #38bdf8;
+      --accent-btn: #0284c7;
       --error-bg: #ef444433;
       --error-border: #ef4444;
       --success: #22c55e;
+      --warning: #f59e0b;
       --key-bg: #334155;
       --key-active: #475569;
+      --bar-bg: #334155;
     }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #e0e0e0;
+      --text-muted: #a0a0a0;
+      --border: #2d2d2d;
+      --accent: #90caf9;
+      --accent-btn: #1976d2;
+      --error-bg: #cf667933;
+      --error-border: #cf6679;
+      --success: #81c784;
+      --warning: #ffb74d;
+      --key-bg: #292929;
+      --key-active: #3d3d3d;
+      --bar-bg: #292929;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --accent: #0284c7;
+      --accent-btn: #0284c7;
+      --error-bg: #fee2e2;
+      --error-border: #ef4444;
+      --success: #16a34a;
+      --warning: #d97706;
+      --key-bg: #e2e8f0;
+      --key-active: #cbd5e1;
+      --bar-bg: #e2e8f0;
+    }
+
+    @media (prefers-color-scheme: light) {
+      [data-theme="system"] {
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --text: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --accent: #0284c7;
+        --accent-btn: #0284c7;
+        --error-bg: #fee2e2;
+        --error-border: #ef4444;
+        --success: #16a34a;
+        --warning: #d97706;
+        --key-bg: #e2e8f0;
+        --key-active: #cbd5e1;
+        --bar-bg: #e2e8f0;
+      }
+    }
+    @media (prefers-color-scheme: dark) {
+      [data-theme="system"] {
+        --bg: #121212;
+        --card-bg: #1e1e1e;
+        --text: #e0e0e0;
+        --text-muted: #a0a0a0;
+        --border: #2d2d2d;
+        --accent: #90caf9;
+        --accent-btn: #1976d2;
+        --error-bg: #cf667933;
+        --error-border: #cf6679;
+        --success: #81c784;
+        --warning: #ffb74d;
+        --key-bg: #292929;
+        --key-active: #3d3d3d;
+        --bar-bg: #292929;
+      }
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -35,6 +111,7 @@
       justify-content: center;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
     #app-container {
       width: 100%;
@@ -54,6 +131,7 @@
     .screen.active {
       display: flex;
     }
+
     /* Menu Screen */
     .menu-header {
       text-align: center;
@@ -95,8 +173,8 @@
       background: var(--key-active);
     }
     .btn-primary {
-      background: #0284c7;
-      border-color: #38bdf8;
+      background: var(--accent-btn);
+      border-color: var(--accent);
       color: #fff;
     }
     .btn-danger {
@@ -117,7 +195,7 @@
       padding-bottom: 10px;
     }
 
-    /* Top Nav in Sub-screens */
+    /* Top Nav */
     .nav-bar {
       display: flex;
       justify-content: space-between;
@@ -171,13 +249,13 @@
       font-weight: 600;
     }
     .badge-bulls {
-      color: #22c55e;
+      color: var(--success);
       display: inline-flex;
       align-items: center;
       gap: 3px;
     }
     .badge-cows {
-      color: #eab308;
+      color: var(--warning);
       display: inline-flex;
       align-items: center;
       gap: 3px;
@@ -187,14 +265,14 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #22c55e;
+      background: var(--success);
     }
     .dot-cow {
       display: inline-block;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #eab308;
+      background: var(--warning);
     }
 
     /* Input Slot Boxes */
@@ -225,7 +303,7 @@
     .slot-box.duplicate-error {
       background-color: var(--error-bg);
       border-color: var(--error-border);
-      color: #f87171;
+      color: #ef4444;
       animation: shake 0.25s ease-in-out;
     }
     @keyframes shake {
@@ -253,12 +331,18 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: opacity 0.15s, background-color 0.15s;
     }
     .key-btn:active {
       background: var(--key-active);
     }
+    .key-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      background: var(--key-bg);
+    }
     .key-btn.btn-confirm {
-      background: #0284c7;
+      background: var(--accent-btn);
       font-size: 0.95rem;
       font-weight: 700;
       color: #fff;
@@ -316,6 +400,58 @@
       color: var(--accent);
     }
 
+    /* Histograms */
+    .histogram-section {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .histogram-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .histo-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+    }
+    .histo-label {
+      width: 48px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    .histo-bar-wrap {
+      flex: 1;
+      height: 18px;
+      background: var(--bar-bg);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .histo-bar {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+      min-width: 0;
+    }
+    .histo-bar.abandoned-bar {
+      background: #ef4444;
+    }
+    .histo-count {
+      width: 24px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--text);
+    }
+
     /* Modal */
     .modal-backdrop {
       position: absolute;
@@ -357,7 +493,7 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="blue">
   <div id="app-container">
     <!-- Screen: Splash -->
     <div id="screen-splash" class="screen active" style="justify-content:center; align-items:center; text-align:center;">
@@ -386,7 +522,7 @@
       <div class="nav-bar">
         <button id="btn-game-back" class="nav-btn">‹ Menu</button>
         <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted);" id="game-round-indicator">Guesses: 0</span>
-        <button id="btn-game-restart" class="nav-btn" style="color: var(--text-muted); font-size: 0.85rem;">Restart</button>
+        <button id="btn-game-restart" class="nav-btn" style="color: var(--text-muted); font-size: 0.85rem;">Abandon</button>
       </div>
 
       <!-- Guesses Feed -->
@@ -412,7 +548,7 @@
         <button class="key-btn" data-key="8">8</button>
         <button class="key-btn" data-key="9">9</button>
         <button class="key-btn" data-key="del">⌫</button>
-        <button class="key-btn" data-key="0">0</button>
+        <button class="key-btn" id="key-0" data-key="0">0</button>
         <button class="key-btn btn-confirm" id="btn-confirm" disabled>OK</button>
       </div>
     </div>
@@ -423,6 +559,20 @@
         <button id="btn-settings-back" class="nav-btn">‹ Back</button>
         <span style="font-weight: 600;">Settings</span>
         <div style="width: 40px;"></div>
+      </div>
+      <div class="settings-group">
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Theme</div>
+            <div class="setting-desc">Select visual appearance</div>
+          </div>
+          <select id="setting-theme">
+            <option value="blue">Blue (Default)</option>
+            <option value="dark">Dark Minimal</option>
+            <option value="light">Light</option>
+            <option value="system">System Default</option>
+          </select>
+        </div>
       </div>
       <div class="settings-group">
         <div class="setting-row">
@@ -463,10 +613,23 @@
         <div style="width: 40px;"></div>
       </div>
       <div class="stats-card">
-        <div class="stat-metric"><span>Games Played:</span><span id="stat-played" class="stat-val">0</span></div>
-        <div class="stat-metric"><span>Games Won:</span><span id="stat-won" class="stat-val">0</span></div>
+        <div class="stat-metric"><span>Games Started:</span><span id="stat-started" class="stat-val">0</span></div>
+        <div class="stat-metric"><span>Games Won (Completed):</span><span id="stat-won" class="stat-val">0</span></div>
+        <div class="stat-metric"><span>Games Abandoned:</span><span id="stat-abandoned" class="stat-val">0</span></div>
         <div class="stat-metric"><span>Best Game (Least Guesses):</span><span id="stat-best" class="stat-val">-</span></div>
-        <div class="stat-metric"><span>Average Guesses (Last 10):</span><span id="stat-avg10" class="stat-val">-</span></div>
+        <div class="stat-metric"><span>Average Guesses (All-Time):</span><span id="stat-avg-all" class="stat-val">-</span></div>
+        <div class="stat-metric"><span>Average Guesses (Last 10 Won):</span><span id="stat-avg10" class="stat-val">-</span></div>
+
+        <!-- Histograms -->
+        <div class="histogram-section">
+          <div class="histogram-title">Win Distribution (Guesses Taken)</div>
+          <div id="histo-completed-container"></div>
+        </div>
+
+        <div class="histogram-section">
+          <div class="histogram-title">Abandonment Distribution (At Guess #)</div>
+          <div id="histo-abandoned-container"></div>
+        </div>
       </div>
       <button id="btn-reset-stats" class="btn btn-danger" style="margin-top: 10px;">Reset All Statistics</button>
     </div>
@@ -492,14 +655,17 @@
 
     let settings = {
       allowLeadingZero: false,
-      badgeStyle: 'text'
+      badgeStyle: 'text',
+      theme: 'blue'
     };
 
     let stats = {
-      gamesPlayed: 0,
+      gamesStarted: 0,
       gamesWon: 0,
+      gamesAbandoned: 0,
       bestScore: null,
-      history: [] // stores guess counts
+      historyWon: [],       // array of guess counts for wins
+      historyAbandoned: []  // array of guess counts made before abandoning
     };
 
     let gameState = {
@@ -524,6 +690,7 @@
     const btnConfirm = document.getElementById('btn-confirm');
     const btnResume = document.getElementById('btn-resume');
     const roundIndicator = document.getElementById('game-round-indicator');
+    const key0Btn = document.getElementById('key-0');
 
     // Persistence Loaders
     function loadStoredData() {
@@ -531,16 +698,36 @@
       if (savedSettings) settings = { ...settings, ...JSON.parse(savedSettings) };
 
       const savedStats = localStorage.getItem(STORAGE_KEY_STATS);
-      if (savedStats) stats = { ...stats, ...JSON.parse(savedStats) };
+      if (savedStats) {
+        const parsed = JSON.parse(savedStats);
+        stats = {
+          gamesStarted: parsed.gamesStarted || (parsed.gamesPlayed || 0),
+          gamesWon: parsed.gamesWon || 0,
+          gamesAbandoned: parsed.gamesAbandoned || 0,
+          bestScore: parsed.bestScore || null,
+          historyWon: parsed.historyWon || (parsed.history || []),
+          historyAbandoned: parsed.historyAbandoned || []
+        };
+      }
+
+      applyTheme(settings.theme);
 
       const savedGame = localStorage.getItem(STORAGE_KEY_STATE);
       if (savedGame) {
         gameState = JSON.parse(savedGame);
-        if (!gameState.isGameOver && gameState.guesses.length >= 0) {
+        if (!gameState.isGameOver && gameState.secret) {
           btnResume.disabled = false;
         }
       }
       syncSettingsUI();
+    }
+
+    function applyTheme(themeName) {
+      document.body.setAttribute('data-theme', themeName);
+      const meta = document.getElementById('meta-theme-color');
+      if (themeName === 'light') meta.content = '#f8fafc';
+      else if (themeName === 'dark') meta.content = '#121212';
+      else meta.content = '#1e293b';
     }
 
     function saveGameState() {
@@ -584,7 +771,7 @@
       return result;
     }
 
-    // Score Calculation
+    // Bulls & Cows Score Logic
     function calculateBullsAndCows(secret, guess) {
       let bulls = 0;
       let cows = 0;
@@ -607,9 +794,21 @@
         activeSlot: 0,
         isGameOver: false
       };
+      stats.gamesStarted++;
+      saveStats();
       saveGameState();
       renderGameUI();
       showScreen('game');
+    }
+
+    function abandonCurrentGame() {
+      if (!gameState.isGameOver && gameState.secret) {
+        stats.gamesAbandoned++;
+        stats.historyAbandoned.push(gameState.guesses.length);
+        saveStats();
+        gameState.isGameOver = true;
+        saveGameState();
+      }
     }
 
     function resumeGame() {
@@ -618,7 +817,6 @@
     }
 
     function renderGameUI() {
-      // Clear and populate history
       guessHistoryEl.innerHTML = '';
       gameState.guesses.forEach((item, index) => {
         appendGuessRow(index + 1, item.guess, item.bulls, item.cows);
@@ -663,7 +861,7 @@
           gameState.currentGuess[gameState.activeSlot] = '';
         }
       } else {
-        // Enforce leading zero setting if slot is 0
+        // Enforce leading zero check
         if (gameState.activeSlot === 0 && val === '0' && !settings.allowLeadingZero) {
           return;
         }
@@ -676,7 +874,14 @@
     }
 
     function updateInputSlotsDisplay() {
-      // Find duplicates
+      // Gray out 0 button if in slot 0 and leading zeros disabled
+      if (gameState.activeSlot === 0 && !settings.allowLeadingZero) {
+        key0Btn.disabled = true;
+      } else {
+        key0Btn.disabled = false;
+      }
+
+      // Check duplicate status
       const counts = {};
       gameState.currentGuess.forEach(d => {
         if (d !== '') counts[d] = (counts[d] || 0) + 1;
@@ -702,7 +907,6 @@
         if (val === '') isFilled = false;
       });
 
-      // Confirm button is only active when 4 digits filled and no duplicates
       btnConfirm.disabled = !isFilled || hasDuplicate;
     }
 
@@ -719,7 +923,7 @@
       gameState.activeSlot = 0;
       updateInputSlotsDisplay();
 
-      // Check win
+      // Win check
       if (score.bulls === 4) {
         gameState.isGameOver = true;
         saveGameState();
@@ -732,34 +936,93 @@
       saveGameState();
     }
 
-    // Stats Management
+    // Stats Management & Histograms
     function recordWin(numGuesses) {
-      stats.gamesPlayed++;
       stats.gamesWon++;
       if (stats.bestScore === null || numGuesses < stats.bestScore) {
         stats.bestScore = numGuesses;
       }
-      stats.history.push(numGuesses);
+      stats.historyWon.push(numGuesses);
       saveStats();
     }
 
+    function buildHistogram(containerEl, dataArray, isAbandoned = false) {
+      containerEl.innerHTML = '';
+      if (!dataArray || dataArray.length === 0) {
+        containerEl.innerHTML = '<div style="color:var(--text-muted); font-size:0.8rem; font-style:italic;">No records yet</div>';
+        return;
+      }
+
+      // Group into buckets: 1-4, 5-6, 7-8, 9-10, 11-12, 13+
+      const buckets = [
+        { label: '1 - 4', count: 0 },
+        { label: '5 - 6', count: 0 },
+        { label: '7 - 8', count: 0 },
+        { label: '9 - 10', count: 0 },
+        { label: '11 - 12', count: 0 },
+        { label: '13+', count: 0 }
+      ];
+
+      dataArray.forEach(g => {
+        if (g <= 4) buckets[0].count++;
+        else if (g <= 6) buckets[1].count++;
+        else if (g <= 8) buckets[2].count++;
+        else if (g <= 10) buckets[3].count++;
+        else if (g <= 12) buckets[4].count++;
+        else buckets[5].count++;
+      });
+
+      const maxCount = Math.max(...buckets.map(b => b.count), 1);
+
+      buckets.forEach(b => {
+        const row = document.createElement('div');
+        row.className = 'histo-row';
+        const pct = (b.count / maxCount) * 100;
+        const barClass = isAbandoned ? 'histo-bar abandoned-bar' : 'histo-bar';
+
+        row.innerHTML = `
+          <div class="histo-label">${b.label}</div>
+          <div class="histo-bar-wrap">
+            <div class="${barClass}" style="width: ${pct}%;"></div>
+          </div>
+          <div class="histo-count">${b.count}</div>
+        `;
+        containerEl.appendChild(row);
+      });
+    }
+
     function renderStatsUI() {
-      document.getElementById('stat-played').textContent = stats.gamesPlayed;
+      document.getElementById('stat-started').textContent = stats.gamesStarted;
       document.getElementById('stat-won').textContent = stats.gamesWon;
+      document.getElementById('stat-abandoned').textContent = stats.gamesAbandoned;
       document.getElementById('stat-best').textContent = stats.bestScore !== null ? `${stats.bestScore} guesses` : '-';
-      
-      const last10 = stats.history.slice(-10);
+
+      // All-time average
+      if (stats.historyWon.length > 0) {
+        const sumAll = stats.historyWon.reduce((a, b) => a + b, 0);
+        document.getElementById('stat-avg-all').textContent = `${(sumAll / stats.historyWon.length).toFixed(1)} guesses`;
+      } else {
+        document.getElementById('stat-avg-all').textContent = '-';
+      }
+
+      // Last 10 won average
+      const last10 = stats.historyWon.slice(-10);
       if (last10.length > 0) {
         const avg = (last10.reduce((a, b) => a + b, 0) / last10.length).toFixed(1);
         document.getElementById('stat-avg10').textContent = `${avg} guesses`;
       } else {
         document.getElementById('stat-avg10').textContent = '-';
       }
+
+      // Histograms
+      buildHistogram(document.getElementById('histo-completed-container'), stats.historyWon, false);
+      buildHistogram(document.getElementById('histo-abandoned-container'), stats.historyAbandoned, true);
     }
 
     function syncSettingsUI() {
       document.getElementById('setting-leading-zeros').checked = settings.allowLeadingZero;
       document.getElementById('setting-badge-style').value = settings.badgeStyle;
+      document.getElementById('setting-theme').value = settings.theme;
     }
 
     // Modal Handler
@@ -798,6 +1061,7 @@
 
     document.querySelectorAll('.key-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (btn.disabled) return;
         const key = btn.dataset.key;
         if (key) handleKeyInput(key);
       });
@@ -808,7 +1072,8 @@
     // Menu Nav
     document.getElementById('btn-new-game').addEventListener('click', () => {
       if (!gameState.isGameOver && gameState.guesses.length > 0) {
-        showModal('Start New Game?', 'Abandon current in-progress game?', () => {
+        showModal('Start New Game?', 'Abandon current in-progress game and mark it as abandoned?', () => {
+          abandonCurrentGame();
           startNewGame();
         });
       } else {
@@ -832,9 +1097,11 @@
     document.getElementById('btn-settings-back').addEventListener('click', () => showScreen('menu'));
     document.getElementById('btn-stats-back').addEventListener('click', () => showScreen('menu'));
 
+    // Abandon / Restart button in game
     document.getElementById('btn-game-restart').addEventListener('click', () => {
-      showModal('Restart Game?', 'Clear current progress and pick a new number?', () => {
-        startNewGame();
+      showModal('Abandon Game?', 'Quit current game and record it in abandoned stats?', () => {
+        abandonCurrentGame();
+        showScreen('menu');
       });
     });
 
@@ -842,6 +1109,7 @@
     document.getElementById('setting-leading-zeros').addEventListener('change', (e) => {
       settings.allowLeadingZero = e.target.checked;
       saveSettings();
+      updateInputSlotsDisplay();
     });
 
     document.getElementById('setting-badge-style').addEventListener('change', (e) => {
@@ -849,13 +1117,26 @@
       saveSettings();
     });
 
+    document.getElementById('setting-theme').addEventListener('change', (e) => {
+      settings.theme = e.target.value;
+      applyTheme(settings.theme);
+      saveSettings();
+    });
+
     // Stats reset
     document.getElementById('btn-reset-stats').addEventListener('click', () => {
       showModal(
         'Reset Statistics?',
-        'This will erase all win records and abort any active session. Are you sure?',
+        'This will erase all win records, histograms, and clear active game data. Are you sure?',
         () => {
-          stats = { gamesPlayed: 0, gamesWon: 0, bestScore: null, history: [] };
+          stats = {
+            gamesStarted: 0,
+            gamesWon: 0,
+            gamesAbandoned: 0,
+            bestScore: null,
+            historyWon: [],
+            historyAbandoned: []
+          };
           gameState = { secret: '', guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: true };
           saveStats();
           saveGameState();
@@ -865,7 +1146,7 @@
       );
     });
 
-    // Boot sequence: Splash screen for 1.2s
+    // Boot sequence
     window.addEventListener('DOMContentLoaded', () => {
       loadStoredData();
       setTimeout(() => {
