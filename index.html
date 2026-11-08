@@ -13,7 +13,7 @@
       --border: #334155; --accent: #38bdf8; --accent-btn: #0284c7;
       --error-bg: #ef444433; --error-border: #ef4444; --success: #22c55e;
       --warning: #eab308; --key-bg: #334155; --key-active: #475569; --bar-bg: #334155;
-      --drawer-bg: #1e293be6; /* 90% opaque */
+      --drawer-bg: #1e293be6; 
     }
     [data-theme="dark"] {
       --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --text-muted: #a0a0a0;
@@ -69,7 +69,7 @@
     .nav-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
     .nav-btn { background: none; border: none; color: var(--accent); font-size: 1rem; font-weight: 600; cursor: pointer; }
 
-    /* Game Screen (Main Left Side) */
+    /* Game Screen */
     .game-layout { display: flex; flex-direction: column; height: 100%; position: relative; }
     #guess-history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; padding-bottom: 10px; }
     .guess-row { display: flex; align-items: center; justify-content: space-between; background: var(--card-bg); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); }
@@ -107,7 +107,7 @@
     .stat-val { font-weight: 700; color: var(--accent); }
     .stat-sub { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; font-weight: normal; }
 
-    /* Vertical Histograms */
+    /* Histograms */
     .histogram-section { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
     .histogram-title { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; text-align: center; }
     .histo-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; gap: 4px; padding: 0 4px; }
@@ -137,13 +137,12 @@
     #scratchpad-drawer.open { transform: translateX(0); }
     
     #scratchpad-tab {
-      position: absolute; left: -36px; top: 50%; transform: translateY(-50%);
-      width: 36px; height: 80px; background: var(--card-bg); border: 1px solid var(--border); border-right: none;
-      border-radius: 12px 0 0 12px; display: flex; align-items: center; justify-content: center;
-      box-shadow: -4px 0 8px rgba(0,0,0,0.15); cursor: pointer; color: var(--accent);
-      font-size: 1.2rem; z-index: 101; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 2px;
-      font-weight: 600;
+      position: absolute; left: -20px; top: 50%; transform: translateY(-50%);
+      width: 20px; height: 60px; background: var(--card-bg); border: 1px solid var(--border); border-right: none;
+      border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center;
+      box-shadow: -4px 0 8px rgba(0,0,0,0.15); cursor: pointer; color: var(--text-muted); z-index: 101;
     }
+    #scratchpad-tab::before { content: '⋮'; font-size: 1.4rem; font-weight: bold; line-height: 1; }
     #scratchpad-tab.bounce { animation: pulse 2s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); } 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); } }
 
@@ -157,20 +156,21 @@
     .sp-content.active { display: flex; flex-direction: column; }
 
     /* Option 1: Triage Board Styles */
-    .bucket-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-    .bull-slots { display: flex; gap: 8px; margin-bottom: 20px; }
-    .bull-slot { width: 42px; height: 46px; border: 2px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(34, 197, 94, 0.05); }
+    .bucket-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .bucket-label:first-child { margin-top: 0; }
     
-    .dropzone { min-height: 54px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; align-content: flex-start; }
+    .bull-slots { display: flex; gap: 8px; margin-bottom: 16px; justify-content: space-between; }
+    .bull-slot { flex: 1; height: 50px; border: 2px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(34, 197, 94, 0.05); }
+    
+    .dropzone { min-height: 54px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; }
     .dropzone#pool-elim { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
     .dropzone#pool-cows { background: rgba(234, 179, 8, 0.05); border-color: rgba(234, 179, 8, 0.2); }
     
     .drag-tile { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: grab; user-select: none; }
     .drag-tile-top { display: flex; align-items: center; height: 36px; padding: 0 10px 0 6px; }
-    .drag-handle { color: var(--text-muted); font-size: 1.2rem; line-height: 1; padding-right: 6px; cursor: grab; touch-action: none; } /* only handle prevents scroll */
+    .drag-handle { color: var(--text-muted); font-size: 1.2rem; line-height: 1; padding-right: 6px; cursor: grab; touch-action: none; }
     .drag-val { font-size: 1.1rem; font-weight: 700; width: 16px; text-align: center; }
     
-    /* Highlight to show draggability clearly */
     .drag-tile { border-left: 3px solid var(--accent); }
     .dropzone#pool-elim .drag-tile { border-left-color: #ef4444; opacity: 0.7; }
     .dropzone#pool-cows .drag-tile { border-left-color: #eab308; }
@@ -179,7 +179,7 @@
     .bull-slot .drag-tile-top { height: 100%; justify-content: center; padding: 0; }
     .bull-slot .drag-val { font-size: 1.4rem; color: #22c55e; }
 
-    /* Cow Grid Toggle */
+    /* Cow Grid Toggle & Inline Layout */
     .cow-grid-switch { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; text-transform: none; color: var(--text); }
     .switch-input { display: none; }
     .switch-label { width: 32px; height: 18px; background: var(--key-bg); border-radius: 10px; position: relative; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; }
@@ -187,13 +187,15 @@
     .switch-input:checked + .switch-label { background: var(--accent); }
     .switch-input:checked + .switch-label::after { transform: translateX(14px); background: #fff; }
 
-    .mini-grid-container { display: none; padding: 4px 8px 8px 8px; border-top: 1px solid var(--border); gap: 4px; justify-content: center; }
+    .mini-grid-container { display: none; }
     #pool-cows.grid-on { flex-direction: column; flex-wrap: nowrap; }
-    #pool-cows.grid-on .drag-tile { width: 100%; }
-    #pool-cows.grid-on .mini-grid-container { display: flex; }
-    .mg-cell { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; color: var(--text-muted); cursor: pointer; }
+    #pool-cows.grid-on .drag-tile { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; padding-right: 8px; }
+    #pool-cows.grid-on .drag-tile-top { height: auto; padding: 6px 10px 6px 6px; }
+    #pool-cows.grid-on .mini-grid-container { display: flex; gap: 6px; }
+    .mg-cell { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; color: var(--text-muted); cursor: pointer; }
     .mg-cell.state-x { color: #ef4444; }
     .mg-cell.state-cow { font-size: 0.6rem; }
+    .mg-cell.state-auto-x { color: #ef4444; opacity: 0.3; pointer-events: none; }
 
     /* Option 2: Deduction Grid Styles */
     .grid-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
@@ -221,7 +223,7 @@
       <div class="menu-header">
         <h1>Bulls & Cows</h1>
         <p>A Clean PWA Deduction Game</p>
-        <div class="version-tag">v3.0</div>
+        <div class="version-tag">v3.1</div>
       </div>
       <div class="menu-btn-group">
         <button id="btn-resume" class="btn" disabled>Resume Game</button>
@@ -265,7 +267,7 @@
       
       <!-- Scratchpad Drawer -->
       <div id="scratchpad-drawer">
-        <div id="scratchpad-tab" class="bounce">📝 SCRATCHPAD</div>
+        <div id="scratchpad-tab" class="bounce"></div>
         <div class="sp-header">
           <span class="sp-title">Scratchpad</span>
           <div class="sp-toggle-group">
@@ -295,7 +297,7 @@
           <div class="dropzone" id="pool-cows" data-type="cows"></div>
           
           <div class="bucket-label">Available Digits</div>
-          <div class="dropzone" id="pool-available" data-type="available" style="flex: 1;">
+          <div class="dropzone" id="pool-available" data-type="available">
             <!-- Draggable tiles injected by JS -->
           </div>
           
@@ -593,24 +595,20 @@
     let dragEl = null, dragClone = null, offsetX = 0, offsetY = 0;
     
     function initScratchpadDOM() {
-      // Toggle Option Views
       btnOpt1.onclick = () => { btnOpt1.classList.add('active'); btnOpt2.classList.remove('active'); viewOpt1.classList.add('active'); viewOpt2.classList.remove('active'); };
       btnOpt2.onclick = () => { btnOpt2.classList.add('active'); btnOpt1.classList.remove('active'); viewOpt2.classList.add('active'); viewOpt1.classList.remove('active'); };
       
-      // Toggle drawer
       tab.onclick = () => { 
         drawer.classList.toggle('open'); 
-        if (drawer.classList.contains('open')) tab.classList.remove('bounce'); // stop hint bounce once opened
+        if (drawer.classList.contains('open')) tab.classList.remove('bounce');
       };
 
-      // Toggle Cow Grid
       cowGridToggle.onchange = (e) => {
         gameState.sp.opt1GridOn = e.target.checked;
         if(e.target.checked) poolCows.classList.add('grid-on'); else poolCows.classList.remove('grid-on');
         saveGameState();
       };
 
-      // Build Option 2 Grid DOM
       for(let r=0; r<10; r++) {
         const rowLbl = document.createElement('div'); rowLbl.className = 'dg-row-label'; rowLbl.textContent = r;
         opt2Grid.appendChild(rowLbl);
@@ -636,7 +634,6 @@
         }
       }
 
-      // Setup touch/mouse drag on window level
       window.addEventListener('mousemove', handleDragMove, {passive: false});
       window.addEventListener('touchmove', handleDragMove, {passive: false});
       window.addEventListener('mouseup', handleDragEnd);
@@ -644,7 +641,6 @@
     }
 
     function buildScratchpad() {
-      // Rebuild Option 1 Tiles
       poolAvailable.innerHTML = ''; poolCows.innerHTML = ''; poolElim.innerHTML = ''; poolBulls.forEach(b=>b.innerHTML='');
       
       cowGridToggle.checked = gameState.sp.opt1GridOn;
@@ -663,22 +659,19 @@
           </div>
         `;
         
-        // Mini grid clicks
         tile.querySelectorAll('.mg-cell').forEach(c => {
           c.onclick = () => {
             let state = gameState.sp.opt1Cells[i][c.dataset.c];
             state = (state + 1) % 3;
             gameState.sp.opt1Cells[i][c.dataset.c] = state;
-            updateOpt1CellVisuals(c, state);
             saveGameState();
+            renderOpt1MiniGrids();
           };
-          updateOpt1CellVisuals(c, gameState.sp.opt1Cells[i][c.dataset.c]);
         });
 
-        // Init drag on handle and tile (if not touching grid)
         const startDrag = (e) => {
           if (e.type === 'touchstart' && e.touches.length > 1) return;
-          if (e.target.classList.contains('mg-cell')) return; // don't drag if clicking mini grid
+          if (e.target.classList.contains('mg-cell')) return;
           dragEl = tile;
           const rect = tile.getBoundingClientRect();
           const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
@@ -694,19 +687,19 @@
         };
         tile.addEventListener('mousedown', startDrag); tile.addEventListener('touchstart', startDrag, {passive:false});
 
-        // Place in correct bucket based on state
         if(gameState.sp.opt1Layout.cows.includes(i)) poolCows.appendChild(tile);
         else if(gameState.sp.opt1Layout.elim.includes(i)) poolElim.appendChild(tile);
         else if(gameState.sp.opt1Layout.bulls.includes(i)) poolBulls[gameState.sp.opt1Layout.bulls.indexOf(i)].appendChild(tile);
         else poolAvailable.appendChild(tile);
       }
       sortBuckets();
+      renderOpt1MiniGrids();
       renderOpt2Grid();
     }
 
     function handleDragMove(e) {
       if(!dragClone) return;
-      e.preventDefault(); // prevent scroll
+      e.preventDefault();
       const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
       const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
       dragClone.style.left = (clientX - offsetX) + 'px'; dragClone.style.top = (clientY - offsetY) + 'px';
@@ -724,7 +717,7 @@
         if(zone) {
           if (zone.classList.contains('bull-slot')) {
             if (zone.children.length > 0 && zone.children[0] !== dragEl) {
-              poolAvailable.appendChild(zone.children[0]); // kick out existing
+              poolAvailable.appendChild(zone.children[0]);
             }
             zone.appendChild(dragEl);
           } else {
@@ -732,6 +725,7 @@
           }
           saveOpt1LayoutState();
           sortBuckets();
+          renderOpt1MiniGrids();
         }
       }
       dragEl = null;
@@ -755,28 +749,41 @@
       saveGameState();
     }
 
-    function updateOpt1CellVisuals(cell, state) {
-      cell.className = 'mg-cell'; cell.textContent = '';
-      if(state===1) { cell.classList.add('state-x'); cell.textContent = '❌'; }
-      if(state===2) { cell.classList.add('state-cow'); cell.textContent = '🟡'; }
+    function renderOpt1MiniGrids() {
+      const bulls = gameState.sp.opt1Layout.bulls; // e.g. [5, null, 2, null]
+      document.querySelectorAll('.drag-tile').forEach(tile => {
+        const digit = parseInt(tile.dataset.val);
+        tile.querySelectorAll('.mg-cell').forEach((cell, col) => {
+           let st = gameState.sp.opt1Cells[digit][col];
+           cell.className = 'mg-cell'; cell.textContent = '';
+           
+           // Auto-X logic: If there's a bull in this col, and it's not THIS digit, X it out.
+           if (bulls[col] !== null && bulls[col] !== digit) {
+             cell.classList.add('state-auto-x');
+             cell.textContent = '❌';
+             cell.style.pointerEvents = 'none';
+           } else {
+             cell.style.pointerEvents = 'auto';
+             if (st === 1) { cell.classList.add('state-x'); cell.textContent = '❌'; }
+             if (st === 2) { cell.classList.add('state-cow'); cell.textContent = '🟡'; }
+           }
+        });
+      });
     }
 
     // Option 2 Grid Logic
     function handleOpt2ShortPress(r, c) {
       const cellState = gameState.sp.opt2Cells[r][c];
-      if (cellState.b) return; // if it's a bull, short press does nothing
-      // check if it's under an auto-X blanket
+      if (cellState.b) return;
       if (isOpt2AutoX(r, c)) return; 
-      
       cellState.m = (cellState.m + 1) % 3;
       saveGameState(); renderOpt2Grid();
     }
 
     function handleOpt2LongPress(r, c) {
       const cellState = gameState.sp.opt2Cells[r][c];
-      if (cellState.b) cellState.b = false; // toggle off
+      if (cellState.b) cellState.b = false;
       else {
-        // Clear any other bull in this row or col
         for(let i=0; i<10; i++) gameState.sp.opt2Cells[i][c].b = false;
         for(let j=0; j<4; j++) gameState.sp.opt2Cells[r][j].b = false;
         cellState.b = true;
