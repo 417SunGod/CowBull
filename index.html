@@ -2,87 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
   <meta name="theme-color" content="#1e293b" id="meta-theme-color" />
   <link rel="manifest" href="manifest.json" />
   <title>Bulls & Cows</title>
   <style>
     /* Theme Definitions */
     :root, [data-theme="blue"] {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --border: #334155;
-      --accent: #38bdf8;
-      --accent-btn: #0284c7;
-      --error-bg: #ef444433;
-      --error-border: #ef4444;
-      --success: #22c55e;
-      --warning: #f59e0b;
-      --key-bg: #334155;
-      --key-active: #475569;
-      --bar-bg: #334155;
+      --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; --text-muted: #94a3b8;
+      --border: #334155; --accent: #38bdf8; --accent-btn: #0284c7;
+      --error-bg: #ef444433; --error-border: #ef4444; --success: #22c55e;
+      --warning: #eab308; --key-bg: #334155; --key-active: #475569; --bar-bg: #334155;
+      --drawer-bg: #1e293be6; /* 90% opaque */
     }
     [data-theme="dark"] {
-      --bg: #121212;
-      --card-bg: #1e1e1e;
-      --text: #e0e0e0;
-      --text-muted: #a0a0a0;
-      --border: #2d2d2d;
-      --accent: #90caf9;
-      --accent-btn: #1976d2;
-      --error-bg: #cf667933;
-      --error-border: #cf6679;
-      --success: #81c784;
-      --warning: #ffb74d;
-      --key-bg: #292929;
-      --key-active: #3d3d3d;
-      --bar-bg: #292929;
+      --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --text-muted: #a0a0a0;
+      --border: #2d2d2d; --accent: #90caf9; --accent-btn: #1976d2;
+      --error-bg: #cf667933; --error-border: #cf6679; --success: #81c784;
+      --warning: #ffb74d; --key-bg: #292929; --key-active: #3d3d3d; --bar-bg: #292929;
+      --drawer-bg: #1e1e1ee6;
     }
     [data-theme="light"] {
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --accent: #0284c7;
-      --accent-btn: #0284c7;
-      --error-bg: #fee2e2;
-      --error-border: #ef4444;
-      --success: #16a34a;
-      --warning: #d97706;
-      --key-bg: #e2e8f0;
-      --key-active: #cbd5e1;
-      --bar-bg: #e2e8f0;
+      --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; --text-muted: #64748b;
+      --border: #e2e8f0; --accent: #0284c7; --accent-btn: #0284c7;
+      --error-bg: #fee2e2; --error-border: #ef4444; --success: #16a34a;
+      --warning: #d97706; --key-bg: #e2e8f0; --key-active: #cbd5e1; --bar-bg: #e2e8f0;
+      --drawer-bg: #ffffffeb;
     }
     @media (prefers-color-scheme: light) {
       [data-theme="system"] {
         --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; --text-muted: #64748b;
-        --border: #e2e8f0; --accent: #0284c7; --accent-btn: #0284c7; --error-bg: #fee2e2;
-        --error-border: #ef4444; --success: #16a34a; --warning: #d97706;
-        --key-bg: #e2e8f0; --key-active: #cbd5e1; --bar-bg: #e2e8f0;
+        --border: #e2e8f0; --accent: #0284c7; --accent-btn: #0284c7;
+        --error-bg: #fee2e2; --error-border: #ef4444; --success: #16a34a;
+        --warning: #d97706; --key-bg: #e2e8f0; --key-active: #cbd5e1; --bar-bg: #e2e8f0;
+        --drawer-bg: #ffffffeb;
       }
     }
     @media (prefers-color-scheme: dark) {
       [data-theme="system"] {
         --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --text-muted: #a0a0a0;
-        --border: #2d2d2d; --accent: #90caf9; --accent-btn: #1976d2; --error-bg: #cf667933;
-        --error-border: #cf6679; --success: #81c784; --warning: #ffb74d;
-        --key-bg: #292929; --key-active: #3d3d3d; --bar-bg: #292929;
+        --border: #2d2d2d; --accent: #90caf9; --accent-btn: #1976d2;
+        --error-bg: #cf667933; --error-border: #cf6679; --success: #81c784;
+        --warning: #ffb74d; --key-bg: #292929; --key-active: #3d3d3d; --bar-bg: #292929;
+        --drawer-bg: #1e1e1ee6;
       }
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--bg); color: var(--text); display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; transition: background-color 0.2s ease, color 0.2s ease; }
-    #app-container { width: 100%; max-width: 440px; height: 100vh; display: flex; flex-direction: column; position: relative; }
+    #app-container { width: 100%; max-width: 440px; height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden; }
     .screen { display: none; flex-direction: column; height: 100%; padding: 20px; overflow-y: auto; }
     .screen.active { display: flex; }
 
     /* Menu & Nav */
-    .menu-header { text-align: center; margin-top: 40px; margin-bottom: 30px; }
+    .menu-header { text-align: center; margin-top: 40px; margin-bottom: 20px; }
     .menu-header h1 { font-size: 2.2rem; color: var(--accent); letter-spacing: 1px; }
     .menu-header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 6px; }
+    .version-tag { font-size: 0.75rem; background: var(--key-bg); padding: 4px 8px; border-radius: 12px; color: var(--text-muted); display: inline-block; margin-top: 10px; border: 1px solid var(--border); }
     .menu-btn-group { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
     .btn { background: var(--card-bg); color: var(--text); border: 1px solid var(--border); padding: 16px; font-size: 1.05rem; font-weight: 600; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.15s ease; }
     .btn:active { transform: scale(0.98); background: var(--key-active); }
@@ -93,8 +69,9 @@
     .nav-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
     .nav-btn { background: none; border: none; color: var(--accent); font-size: 1rem; font-weight: 600; cursor: pointer; }
 
-    /* Game Screen */
-    #guess-history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; }
+    /* Game Screen (Main Left Side) */
+    .game-layout { display: flex; flex-direction: column; height: 100%; position: relative; }
+    #guess-history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; padding-bottom: 10px; }
     .guess-row { display: flex; align-items: center; justify-content: space-between; background: var(--card-bg); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); }
     .guess-idx { font-size: 0.85rem; color: var(--text-muted); width: 24px; }
     .guess-digits { font-size: 1.25rem; font-weight: 700; letter-spacing: 6px; }
@@ -105,7 +82,7 @@
     .dot-cow { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--warning); }
 
     /* Inputs & Keypad */
-    .input-slot-row { display: flex; justify-content: center; gap: 12px; margin: 12px 0 16px 0; }
+    .input-slot-row { display: flex; justify-content: center; gap: 12px; margin: 8px 0 14px 0; }
     .slot-box { width: 58px; height: 62px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold; cursor: pointer; transition: all 0.15s ease; }
     .slot-box.active { border-color: var(--accent); box-shadow: 0 0 10px rgba(56, 189, 248, 0.35); }
     .slot-box.duplicate-error { background-color: var(--error-bg); border-color: var(--error-border); color: #ef4444; animation: shake 0.25s ease-in-out; }
@@ -124,7 +101,6 @@
     .setting-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
     select, input[type="checkbox"] { cursor: pointer; accent-color: var(--accent); }
     select { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 6px 10px; border-radius: 8px; outline: none; }
-    
     .stat-metric { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; font-size: 0.95rem; }
     .stat-lbl { flex: 1; }
     .stat-val-container { text-align: right; }
@@ -143,12 +119,92 @@
     .histo-label-bot { font-size: 0.7rem; color: var(--text-muted); margin-top: 6px; }
 
     /* Modal */
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
     .modal-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; text-align: center; }
     .modal-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
     .modal-msg { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; }
     .modal-actions { display: flex; gap: 10px; }
     .modal-actions .btn { flex: 1; padding: 10px; font-size: 0.9rem; }
+
+    /* Scratchpad Drawer */
+    #scratchpad-drawer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 78%; max-width: 340px;
+      background: var(--drawer-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-left: 1px solid var(--border); box-shadow: -4px 0 15px rgba(0,0,0,0.3);
+      transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100; display: flex; flex-direction: column;
+    }
+    #scratchpad-drawer.open { transform: translateX(0); }
+    
+    #scratchpad-tab {
+      position: absolute; left: -36px; top: 50%; transform: translateY(-50%);
+      width: 36px; height: 80px; background: var(--card-bg); border: 1px solid var(--border); border-right: none;
+      border-radius: 12px 0 0 12px; display: flex; align-items: center; justify-content: center;
+      box-shadow: -4px 0 8px rgba(0,0,0,0.15); cursor: pointer; color: var(--accent);
+      font-size: 1.2rem; z-index: 101; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 2px;
+      font-weight: 600;
+    }
+    #scratchpad-tab.bounce { animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); } 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); } }
+
+    .sp-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); }
+    .sp-title { font-weight: 700; font-size: 1.05rem; }
+    .sp-toggle-group { display: flex; background: var(--bg); border-radius: 8px; padding: 4px; border: 1px solid var(--border); }
+    .sp-toggle-btn { background: none; border: none; padding: 6px 12px; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .sp-toggle-btn.active { background: var(--card-bg); color: var(--text); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+    .sp-content { flex: 1; overflow-y: auto; padding: 16px; display: none; }
+    .sp-content.active { display: flex; flex-direction: column; }
+
+    /* Option 1: Triage Board Styles */
+    .bucket-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .bull-slots { display: flex; gap: 8px; margin-bottom: 20px; }
+    .bull-slot { width: 42px; height: 46px; border: 2px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(34, 197, 94, 0.05); }
+    
+    .dropzone { min-height: 54px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; align-content: flex-start; }
+    .dropzone#pool-elim { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
+    .dropzone#pool-cows { background: rgba(234, 179, 8, 0.05); border-color: rgba(234, 179, 8, 0.2); }
+    
+    .drag-tile { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: grab; user-select: none; }
+    .drag-tile-top { display: flex; align-items: center; height: 36px; padding: 0 10px 0 6px; }
+    .drag-handle { color: var(--text-muted); font-size: 1.2rem; line-height: 1; padding-right: 6px; cursor: grab; touch-action: none; } /* only handle prevents scroll */
+    .drag-val { font-size: 1.1rem; font-weight: 700; width: 16px; text-align: center; }
+    
+    /* Highlight to show draggability clearly */
+    .drag-tile { border-left: 3px solid var(--accent); }
+    .dropzone#pool-elim .drag-tile { border-left-color: #ef4444; opacity: 0.7; }
+    .dropzone#pool-cows .drag-tile { border-left-color: #eab308; }
+    .bull-slot .drag-tile { border-left-color: #22c55e; height: 100%; width: 100%; border-radius: 6px; }
+    .bull-slot .drag-tile .drag-handle { display: none; }
+    .bull-slot .drag-tile-top { height: 100%; justify-content: center; padding: 0; }
+    .bull-slot .drag-val { font-size: 1.4rem; color: #22c55e; }
+
+    /* Cow Grid Toggle */
+    .cow-grid-switch { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; text-transform: none; color: var(--text); }
+    .switch-input { display: none; }
+    .switch-label { width: 32px; height: 18px; background: var(--key-bg); border-radius: 10px; position: relative; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; }
+    .switch-label::after { content: ''; position: absolute; top: 1px; left: 1px; width: 14px; height: 14px; background: var(--text); border-radius: 50%; transition: 0.2s; }
+    .switch-input:checked + .switch-label { background: var(--accent); }
+    .switch-input:checked + .switch-label::after { transform: translateX(14px); background: #fff; }
+
+    .mini-grid-container { display: none; padding: 4px 8px 8px 8px; border-top: 1px solid var(--border); gap: 4px; justify-content: center; }
+    #pool-cows.grid-on { flex-direction: column; flex-wrap: nowrap; }
+    #pool-cows.grid-on .drag-tile { width: 100%; }
+    #pool-cows.grid-on .mini-grid-container { display: flex; }
+    .mg-cell { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; color: var(--text-muted); cursor: pointer; }
+    .mg-cell.state-x { color: #ef4444; }
+    .mg-cell.state-cow { font-size: 0.6rem; }
+
+    /* Option 2: Deduction Grid Styles */
+    .grid-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+    .deduction-grid { display: grid; grid-template-columns: 24px repeat(4, 1fr); gap: 2px; background: var(--border); border: 2px solid var(--border); border-radius: 8px; padding: 2px; }
+    .dg-header { display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 6px 0; border-radius: 4px; }
+    .dg-row-label { display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; color: var(--text); background: var(--card-bg); border-radius: 4px; }
+    .dg-cell { background: var(--bg); display: flex; align-items: center; justify-content: center; height: 38px; border-radius: 4px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: background 0.15s; }
+    .dg-cell.state-x { color: #ef4444; }
+    .dg-cell.state-auto-x { color: #ef4444; opacity: 0.4; pointer-events: none; }
+    .dg-cell.state-bull { color: #22c55e; font-size: 0.7rem; }
+    .dg-cell.state-cow { font-size: 0.7rem; }
   </style>
 </head>
 <body data-theme="blue">
@@ -165,6 +221,7 @@
       <div class="menu-header">
         <h1>Bulls & Cows</h1>
         <p>A Clean PWA Deduction Game</p>
+        <div class="version-tag">v3.0</div>
       </div>
       <div class="menu-btn-group">
         <button id="btn-resume" class="btn" disabled>Resume Game</button>
@@ -176,32 +233,84 @@
     </div>
 
     <!-- Screen: Game -->
-    <div id="screen-game" class="screen">
-      <div class="nav-bar">
-        <button id="btn-game-back" class="nav-btn">‹ Menu</button>
-        <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted);" id="game-round-indicator">Guesses: 0</span>
-        <button id="btn-game-restart" class="nav-btn" style="color: var(--text-muted); font-size: 0.85rem;">Abandon</button>
+    <div id="screen-game" class="screen" style="padding: 0;">
+      <div style="padding: 20px; display: flex; flex-direction: column; height: 100%;">
+        <div class="nav-bar">
+          <button id="btn-game-back" class="nav-btn">‹ Menu</button>
+          <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted);" id="game-round-indicator">Guesses: 0</span>
+          <button id="btn-game-restart" class="nav-btn" style="color: var(--text-muted); font-size: 0.85rem;">Abandon</button>
+        </div>
+        <div id="guess-history"></div>
+        <div class="input-slot-row">
+          <div class="slot-box active" data-index="0"></div>
+          <div class="slot-box" data-index="1"></div>
+          <div class="slot-box" data-index="2"></div>
+          <div class="slot-box" data-index="3"></div>
+        </div>
+        <div class="keypad-container">
+          <button class="key-btn" data-key="1">1</button>
+          <button class="key-btn" data-key="2">2</button>
+          <button class="key-btn" data-key="3">3</button>
+          <button class="key-btn" data-key="4">4</button>
+          <button class="key-btn" data-key="5">5</button>
+          <button class="key-btn" data-key="6">6</button>
+          <button class="key-btn" data-key="7">7</button>
+          <button class="key-btn" data-key="8">8</button>
+          <button class="key-btn" data-key="9">9</button>
+          <button class="key-btn" data-key="del">⌫</button>
+          <button class="key-btn" id="key-0" data-key="0">0</button>
+          <button class="key-btn btn-confirm" id="btn-confirm" disabled>OK</button>
+        </div>
       </div>
-      <div id="guess-history"></div>
-      <div class="input-slot-row">
-        <div class="slot-box active" data-index="0"></div>
-        <div class="slot-box" data-index="1"></div>
-        <div class="slot-box" data-index="2"></div>
-        <div class="slot-box" data-index="3"></div>
-      </div>
-      <div class="keypad-container">
-        <button class="key-btn" data-key="1">1</button>
-        <button class="key-btn" data-key="2">2</button>
-        <button class="key-btn" data-key="3">3</button>
-        <button class="key-btn" data-key="4">4</button>
-        <button class="key-btn" data-key="5">5</button>
-        <button class="key-btn" data-key="6">6</button>
-        <button class="key-btn" data-key="7">7</button>
-        <button class="key-btn" data-key="8">8</button>
-        <button class="key-btn" data-key="9">9</button>
-        <button class="key-btn" data-key="del">⌫</button>
-        <button class="key-btn" id="key-0" data-key="0">0</button>
-        <button class="key-btn btn-confirm" id="btn-confirm" disabled>OK</button>
+      
+      <!-- Scratchpad Drawer -->
+      <div id="scratchpad-drawer">
+        <div id="scratchpad-tab" class="bounce">📝 SCRATCHPAD</div>
+        <div class="sp-header">
+          <span class="sp-title">Scratchpad</span>
+          <div class="sp-toggle-group">
+            <button id="sp-btn-opt1" class="sp-toggle-btn active">Board</button>
+            <button id="sp-btn-opt2" class="sp-toggle-btn">Grid</button>
+          </div>
+        </div>
+        
+        <!-- Option 1: Triage Board -->
+        <div id="sp-view-opt1" class="sp-content active">
+          <div class="bucket-label">Known Bulls (Slots 1-4)</div>
+          <div class="bull-slots">
+            <div class="bull-slot dropzone" id="pool-bull-0" data-slot="0"></div>
+            <div class="bull-slot dropzone" id="pool-bull-1" data-slot="1"></div>
+            <div class="bull-slot dropzone" id="pool-bull-2" data-slot="2"></div>
+            <div class="bull-slot dropzone" id="pool-bull-3" data-slot="3"></div>
+          </div>
+          
+          <div class="bucket-label">
+            Cows / Maybes
+            <div class="cow-grid-switch">
+              Grid:
+              <input type="checkbox" id="cow-grid-toggle" class="switch-input" />
+              <label for="cow-grid-toggle" class="switch-label"></label>
+            </div>
+          </div>
+          <div class="dropzone" id="pool-cows" data-type="cows"></div>
+          
+          <div class="bucket-label">Available Digits</div>
+          <div class="dropzone" id="pool-available" data-type="available" style="flex: 1;">
+            <!-- Draggable tiles injected by JS -->
+          </div>
+          
+          <div class="bucket-label" style="color: #ef4444;">Eliminated</div>
+          <div class="dropzone" id="pool-elim" data-type="elim"></div>
+        </div>
+
+        <!-- Option 2: Deduction Grid -->
+        <div id="sp-view-opt2" class="sp-content">
+          <div class="grid-desc"><b>Tap</b>: X / 🟡<br/><b>Long-press</b>: 🟢 (Auto-clears row & col)</div>
+          <div class="deduction-grid" id="opt2-grid">
+            <div class="dg-header"></div><div class="dg-header">S1</div><div class="dg-header">S2</div><div class="dg-header">S3</div><div class="dg-header">S4</div>
+            <!-- Cells injected by JS -->
+          </div>
+        </div>
       </div>
     </div>
 
@@ -234,6 +343,13 @@
         <div class="setting-row" style="margin-top: 14px;">
           <div><div class="setting-label">Allow Leading Zeros</div><div class="setting-desc">Permit 0 as the very first digit</div></div>
           <input type="checkbox" id="setting-leading-zeros" style="transform: scale(1.3);" />
+        </div>
+        <div class="setting-row" style="margin-top: 14px; opacity: 0.65;">
+          <div>
+            <div class="setting-label">Allow Duplicates</div>
+            <div class="setting-desc" style="color:var(--warning); font-weight:bold;">Duplicates are never allowed.</div>
+          </div>
+          <input type="checkbox" disabled />
         </div>
       </div>
       <div class="settings-group">
@@ -296,30 +412,18 @@
     const STORAGE_KEY_SETTINGS = 'cowbull_settings';
     const STORAGE_KEY_STATS = 'cowbull_stats';
 
-    let settings = {
-      allowLeadingZero: false,
-      badgeStyle: 'text',
-      theme: 'blue',
-      maxGuesses: '10'
+    let settings = { allowLeadingZero: false, badgeStyle: 'text', theme: 'blue', maxGuesses: '10' };
+    let stats = { gamesStarted: 0, gamesWon: 0, gamesLost: 0, gamesAbandoned: 0, bestScore: null, historyWon: [], historyAbandoned: [] };
+    
+    // Scratchpad Initial State
+    const defaultSpState = {
+      opt1Layout: { available: [0,1,2,3,4,5,6,7,8,9], cows: [], elim: [], bulls: [null, null, null, null] },
+      opt1GridOn: false,
+      opt1Cells: Array(10).fill(null).map(()=>Array(4).fill(0)), // 0:blank, 1:X, 2:🟡
+      opt2Cells: Array(10).fill(null).map(()=>Array(4).fill({m:0, b:false})) // m:manual(0,1,2), b:bull
     };
 
-    let stats = {
-      gamesStarted: 0,
-      gamesWon: 0,
-      gamesLost: 0,
-      gamesAbandoned: 0,
-      bestScore: null,
-      historyWon: [],
-      historyAbandoned: []
-    };
-
-    let gameState = {
-      secret: '',
-      guesses: [],
-      currentGuess: ['', '', '', ''],
-      activeSlot: 0,
-      isGameOver: false
-    };
+    let gameState = { secret: '', guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: false, sp: JSON.parse(JSON.stringify(defaultSpState)) };
 
     const screens = { splash: document.getElementById('screen-splash'), menu: document.getElementById('screen-menu'), game: document.getElementById('screen-game'), settings: document.getElementById('screen-settings'), stats: document.getElementById('screen-stats') };
     const slotBoxes = document.querySelectorAll('.slot-box');
@@ -328,22 +432,40 @@
     const btnResume = document.getElementById('btn-resume');
     const roundIndicator = document.getElementById('game-round-indicator');
     const key0Btn = document.getElementById('key-0');
+    
+    // Scratchpad DOM
+    const drawer = document.getElementById('scratchpad-drawer');
+    const tab = document.getElementById('scratchpad-tab');
+    const btnOpt1 = document.getElementById('sp-btn-opt1');
+    const btnOpt2 = document.getElementById('sp-btn-opt2');
+    const viewOpt1 = document.getElementById('sp-view-opt1');
+    const viewOpt2 = document.getElementById('sp-view-opt2');
+    const cowGridToggle = document.getElementById('cow-grid-toggle');
+    const poolAvailable = document.getElementById('pool-available');
+    const poolCows = document.getElementById('pool-cows');
+    const poolElim = document.getElementById('pool-elim');
+    const poolBulls = [document.getElementById('pool-bull-0'), document.getElementById('pool-bull-1'), document.getElementById('pool-bull-2'), document.getElementById('pool-bull-3')];
+    const opt2Grid = document.getElementById('opt2-grid');
+
+    const cellStates = ['', '❌', '🟡'];
+
+    // Boot
+    window.addEventListener('DOMContentLoaded', () => { 
+      loadStoredData(); 
+      initScratchpadDOM();
+      setTimeout(() => { showScreen('menu'); }, 1200); 
+    });
 
     function loadStoredData() {
       const savedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
       if (savedSettings) settings = { ...settings, ...JSON.parse(savedSettings) };
-      if (!settings.maxGuesses) settings.maxGuesses = '10';
-
+      
       const savedStats = localStorage.getItem(STORAGE_KEY_STATS);
       if (savedStats) {
         const p = JSON.parse(savedStats);
         stats = {
-          gamesStarted: p.gamesStarted || (p.gamesPlayed || 0),
-          gamesWon: p.gamesWon || 0,
-          gamesLost: p.gamesLost || 0,
-          gamesAbandoned: p.gamesAbandoned || 0,
-          bestScore: p.bestScore || null,
-          historyWon: p.historyWon || (p.history || []),
+          gamesStarted: p.gamesStarted || (p.gamesPlayed || 0), gamesWon: p.gamesWon || 0, gamesLost: p.gamesLost || 0,
+          gamesAbandoned: p.gamesAbandoned || 0, bestScore: p.bestScore || null, historyWon: p.historyWon || (p.history || []),
           historyAbandoned: p.historyAbandoned || []
         };
       }
@@ -352,86 +474,57 @@
       const savedGame = localStorage.getItem(STORAGE_KEY_STATE);
       if (savedGame) {
         gameState = JSON.parse(savedGame);
-        if (!gameState.isGameOver && gameState.secret) {
-          btnResume.disabled = false;
-        }
+        if (!gameState.sp) gameState.sp = JSON.parse(JSON.stringify(defaultSpState));
+        if (!gameState.isGameOver && gameState.secret) btnResume.disabled = false;
       }
-
-      // Auto-heal legacy migration discrepancy
+      
       const activeGameCount = (!gameState.isGameOver && gameState.secret) ? 1 : 0;
-      const minimumStarted = stats.gamesWon + stats.gamesLost + stats.gamesAbandoned + activeGameCount;
-      if (stats.gamesStarted < minimumStarted) {
-        stats.gamesStarted = minimumStarted;
-        saveStats();
-      }
+      const minStarted = stats.gamesWon + stats.gamesLost + stats.gamesAbandoned + activeGameCount;
+      if (stats.gamesStarted < minStarted) { stats.gamesStarted = minStarted; saveStats(); }
 
       syncSettingsUI();
     }
 
-    function applyTheme(themeName) {
-      document.body.setAttribute('data-theme', themeName);
-      const meta = document.getElementById('meta-theme-color');
-      if (themeName === 'light') meta.content = '#f8fafc';
-      else if (themeName === 'dark') meta.content = '#121212';
-      else meta.content = '#1e293b';
-    }
-
     function saveGameState() {
-      if (gameState.isGameOver) {
-        localStorage.removeItem(STORAGE_KEY_STATE);
-        btnResume.disabled = true;
-      } else {
-        localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(gameState));
-        btnResume.disabled = false;
-      }
+      if (gameState.isGameOver) { localStorage.removeItem(STORAGE_KEY_STATE); btnResume.disabled = true; } 
+      else { localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(gameState)); btnResume.disabled = false; }
     }
     function saveSettings() { localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings)); }
     function saveStats() { localStorage.setItem(STORAGE_KEY_STATS, JSON.stringify(stats)); }
+    function showScreen(name) { Object.values(screens).forEach(s => s.classList.remove('active')); screens[name].classList.add('active'); drawer.classList.remove('open'); }
 
-    function showScreen(name) { Object.values(screens).forEach(s => s.classList.remove('active')); screens[name].classList.add('active'); }
-
+    // Logic
     function generateSecret(allowZero) {
-      const digits = ['0','1','2','3','4','5','6','7','8','9'];
-      let res = '';
+      const digits = ['0','1','2','3','4','5','6','7','8','9']; let res = '';
       for (let i=0; i<4; i++) {
-        let pool = digits;
-        if (i===0 && !allowZero) pool = digits.filter(d => d !== '0');
+        let pool = i===0 && !allowZero ? digits.filter(d => d !== '0') : digits;
         const picked = pool[Math.floor(Math.random() * pool.length)];
-        res += picked;
-        digits.splice(digits.indexOf(picked), 1);
+        res += picked; digits.splice(digits.indexOf(picked), 1);
       }
       return res;
     }
 
     function calcScore(sec, gs) {
       let b = 0, c = 0;
-      for (let i=0; i<4; i++) {
-        if (gs[i] === sec[i]) b++;
-        else if (sec.includes(gs[i])) c++;
-      }
+      for (let i=0; i<4; i++) { if (gs[i] === sec[i]) b++; else if (sec.includes(gs[i])) c++; }
       return { b, c };
     }
 
     function startNewGame() {
-      gameState = { secret: generateSecret(settings.allowLeadingZero), guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: false };
-      stats.gamesStarted++;
-      saveStats(); saveGameState(); renderGameUI(); showScreen('game');
+      gameState = { secret: generateSecret(settings.allowLeadingZero), guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: false, sp: JSON.parse(JSON.stringify(defaultSpState)) };
+      stats.gamesStarted++; saveStats(); saveGameState(); renderGameUI(); buildScratchpad(); showScreen('game');
     }
 
     function abandonCurrentGame() {
       if (!gameState.isGameOver && gameState.secret) {
-        stats.gamesAbandoned++;
-        stats.historyAbandoned.push(gameState.guesses.length);
-        gameState.isGameOver = true;
-        saveStats(); saveGameState();
+        stats.gamesAbandoned++; stats.historyAbandoned.push(gameState.guesses.length);
+        gameState.isGameOver = true; saveStats(); saveGameState();
       }
     }
 
     function renderGameUI() {
       guessHistoryEl.innerHTML = '';
-      gameState.guesses.forEach((item, index) => {
-        appendGuessRow(index + 1, item.guess, item.bulls, item.cows);
-      });
+      gameState.guesses.forEach((item, index) => { appendGuessRow(index + 1, item.guess, item.bulls, item.cows); });
       const limit = settings.maxGuesses === 'infinite' ? '∞' : settings.maxGuesses;
       roundIndicator.textContent = `Guess: ${gameState.guesses.length} / ${limit}`;
       updateInputSlotsDisplay();
@@ -439,9 +532,7 @@
     }
 
     function appendGuessRow(idx, guess, b, c) {
-      const row = document.createElement('div');
-      row.className = 'guess-row';
-      let html = '';
+      const row = document.createElement('div'); row.className = 'guess-row'; let html = '';
       if (settings.badgeStyle === 'text') html = `<span class="badge-bulls">${b} B</span> <span class="badge-cows">${c} C</span>`;
       else if (settings.badgeStyle === 'dots') html = `<div style="display:flex;gap:4px;">${Array(b).fill('<span class="dot-bull"></span>').join('')}${Array(c).fill('<span class="dot-cow"></span>').join('') || (b===0?'-':'')}</div>`;
       else html = `<span class="badge-bulls">${b} 🐂</span> <span class="badge-cows">${c} 🐄</span>`;
@@ -464,14 +555,10 @@
 
     function updateInputSlotsDisplay() {
       key0Btn.disabled = (gameState.activeSlot === 0 && !settings.allowLeadingZero);
-      const counts = {};
-      gameState.currentGuess.forEach(d => { if (d !== '') counts[d] = (counts[d] || 0) + 1; });
+      const counts = {}; gameState.currentGuess.forEach(d => { if (d !== '') counts[d] = (counts[d] || 0) + 1; });
       let hasDup = false, isFilled = true;
-
       slotBoxes.forEach((box, i) => {
-        const val = gameState.currentGuess[i];
-        box.textContent = val;
-        box.classList.remove('active', 'duplicate-error');
+        const val = gameState.currentGuess[i]; box.textContent = val; box.classList.remove('active', 'duplicate-error');
         if (i === gameState.activeSlot) box.classList.add('active');
         if (val !== '' && counts[val] > 1) { box.classList.add('duplicate-error'); hasDup = true; }
         if (val === '') isFilled = false;
@@ -480,153 +567,304 @@
     }
 
     function submitGuess() {
-      const gStr = gameState.currentGuess.join('');
-      const score = calcScore(gameState.secret, gStr);
+      const gStr = gameState.currentGuess.join(''); const score = calcScore(gameState.secret, gStr);
       gameState.guesses.push({ guess: gStr, bulls: score.b, cows: score.c });
       appendGuessRow(gameState.guesses.length, gStr, score.b, score.c);
       guessHistoryEl.scrollTop = guessHistoryEl.scrollHeight;
 
-      gameState.currentGuess = ['', '', '', ''];
-      gameState.activeSlot = 0;
-      updateInputSlotsDisplay();
-      
+      gameState.currentGuess = ['', '', '', '']; gameState.activeSlot = 0; updateInputSlotsDisplay();
       const limit = settings.maxGuesses === 'infinite' ? '∞' : settings.maxGuesses;
       roundIndicator.textContent = `Guess: ${gameState.guesses.length} / ${limit}`;
 
       if (score.b === 4) {
-        gameState.isGameOver = true;
-        stats.gamesWon++;
+        gameState.isGameOver = true; stats.gamesWon++;
         if (stats.bestScore === null || gameState.guesses.length < stats.bestScore) stats.bestScore = gameState.guesses.length;
-        stats.historyWon.push(gameState.guesses.length);
-        saveStats(); saveGameState();
+        stats.historyWon.push(gameState.guesses.length); saveStats(); saveGameState();
         showModal('Victory!', `Cracked ${gameState.secret} in ${gameState.guesses.length} guesses!`, () => showScreen('menu'), false);
       } else if (settings.maxGuesses !== 'infinite' && gameState.guesses.length >= parseInt(settings.maxGuesses, 10)) {
-        gameState.isGameOver = true;
-        stats.gamesLost++;
-        saveStats(); saveGameState();
+        gameState.isGameOver = true; stats.gamesLost++; saveStats(); saveGameState();
         showModal('Game Over', `Out of guesses. The secret was ${gameState.secret}.`, () => showScreen('menu'), false);
-      } else {
-        saveGameState();
-      }
+      } else saveGameState();
     }
 
+    // ----------------------------------------------------
+    // SCRATCHPAD LOGIC
+    // ----------------------------------------------------
+    let dragEl = null, dragClone = null, offsetX = 0, offsetY = 0;
+    
+    function initScratchpadDOM() {
+      // Toggle Option Views
+      btnOpt1.onclick = () => { btnOpt1.classList.add('active'); btnOpt2.classList.remove('active'); viewOpt1.classList.add('active'); viewOpt2.classList.remove('active'); };
+      btnOpt2.onclick = () => { btnOpt2.classList.add('active'); btnOpt1.classList.remove('active'); viewOpt2.classList.add('active'); viewOpt1.classList.remove('active'); };
+      
+      // Toggle drawer
+      tab.onclick = () => { 
+        drawer.classList.toggle('open'); 
+        if (drawer.classList.contains('open')) tab.classList.remove('bounce'); // stop hint bounce once opened
+      };
+
+      // Toggle Cow Grid
+      cowGridToggle.onchange = (e) => {
+        gameState.sp.opt1GridOn = e.target.checked;
+        if(e.target.checked) poolCows.classList.add('grid-on'); else poolCows.classList.remove('grid-on');
+        saveGameState();
+      };
+
+      // Build Option 2 Grid DOM
+      for(let r=0; r<10; r++) {
+        const rowLbl = document.createElement('div'); rowLbl.className = 'dg-row-label'; rowLbl.textContent = r;
+        opt2Grid.appendChild(rowLbl);
+        for(let c=0; c<4; c++) {
+          const cell = document.createElement('div'); cell.className = 'dg-cell';
+          cell.dataset.r = r; cell.dataset.c = c;
+          
+          let pressTimer; let wasLongPress = false;
+          const startPress = (e) => {
+            if(e.type==='touchstart' && e.touches.length>1) return;
+            wasLongPress = false;
+            pressTimer = setTimeout(() => { wasLongPress = true; handleOpt2LongPress(r, c); }, 400);
+          };
+          const endPress = (e) => {
+            clearTimeout(pressTimer);
+            if(!wasLongPress) { e.preventDefault(); handleOpt2ShortPress(r, c); }
+          };
+          cell.addEventListener('mousedown', startPress); cell.addEventListener('touchstart', startPress);
+          cell.addEventListener('mouseup', endPress); cell.addEventListener('touchend', endPress);
+          cell.addEventListener('touchmove', () => clearTimeout(pressTimer)); cell.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+          
+          opt2Grid.appendChild(cell);
+        }
+      }
+
+      // Setup touch/mouse drag on window level
+      window.addEventListener('mousemove', handleDragMove, {passive: false});
+      window.addEventListener('touchmove', handleDragMove, {passive: false});
+      window.addEventListener('mouseup', handleDragEnd);
+      window.addEventListener('touchend', handleDragEnd);
+    }
+
+    function buildScratchpad() {
+      // Rebuild Option 1 Tiles
+      poolAvailable.innerHTML = ''; poolCows.innerHTML = ''; poolElim.innerHTML = ''; poolBulls.forEach(b=>b.innerHTML='');
+      
+      cowGridToggle.checked = gameState.sp.opt1GridOn;
+      if(gameState.sp.opt1GridOn) poolCows.classList.add('grid-on'); else poolCows.classList.remove('grid-on');
+
+      for (let i=0; i<10; i++) {
+        const tile = document.createElement('div'); tile.className = 'drag-tile'; tile.dataset.val = i;
+        tile.innerHTML = `
+          <div class="drag-tile-top">
+            <div class="drag-handle">⋮⋮</div>
+            <div class="drag-val">${i}</div>
+          </div>
+          <div class="mini-grid-container">
+            <div class="mg-cell" data-r="${i}" data-c="0"></div><div class="mg-cell" data-r="${i}" data-c="1"></div>
+            <div class="mg-cell" data-r="${i}" data-c="2"></div><div class="mg-cell" data-r="${i}" data-c="3"></div>
+          </div>
+        `;
+        
+        // Mini grid clicks
+        tile.querySelectorAll('.mg-cell').forEach(c => {
+          c.onclick = () => {
+            let state = gameState.sp.opt1Cells[i][c.dataset.c];
+            state = (state + 1) % 3;
+            gameState.sp.opt1Cells[i][c.dataset.c] = state;
+            updateOpt1CellVisuals(c, state);
+            saveGameState();
+          };
+          updateOpt1CellVisuals(c, gameState.sp.opt1Cells[i][c.dataset.c]);
+        });
+
+        // Init drag on handle and tile (if not touching grid)
+        const startDrag = (e) => {
+          if (e.type === 'touchstart' && e.touches.length > 1) return;
+          if (e.target.classList.contains('mg-cell')) return; // don't drag if clicking mini grid
+          dragEl = tile;
+          const rect = tile.getBoundingClientRect();
+          const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+          const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+          offsetX = clientX - rect.left; offsetY = clientY - rect.top;
+          
+          dragClone = tile.cloneNode(true);
+          dragClone.style.position = 'fixed'; dragClone.style.left = rect.left + 'px'; dragClone.style.top = rect.top + 'px';
+          dragClone.style.width = rect.width + 'px'; dragClone.style.opacity = '0.9'; dragClone.style.zIndex = '9999';
+          dragClone.style.pointerEvents = 'none'; dragClone.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)';
+          document.body.appendChild(dragClone);
+          dragEl.style.opacity = '0.2';
+        };
+        tile.addEventListener('mousedown', startDrag); tile.addEventListener('touchstart', startDrag, {passive:false});
+
+        // Place in correct bucket based on state
+        if(gameState.sp.opt1Layout.cows.includes(i)) poolCows.appendChild(tile);
+        else if(gameState.sp.opt1Layout.elim.includes(i)) poolElim.appendChild(tile);
+        else if(gameState.sp.opt1Layout.bulls.includes(i)) poolBulls[gameState.sp.opt1Layout.bulls.indexOf(i)].appendChild(tile);
+        else poolAvailable.appendChild(tile);
+      }
+      sortBuckets();
+      renderOpt2Grid();
+    }
+
+    function handleDragMove(e) {
+      if(!dragClone) return;
+      e.preventDefault(); // prevent scroll
+      const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+      const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+      dragClone.style.left = (clientX - offsetX) + 'px'; dragClone.style.top = (clientY - offsetY) + 'px';
+    }
+
+    function handleDragEnd(e) {
+      if(!dragClone) return;
+      const clientX = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
+      const clientY = e.type === 'touchend' ? e.changedTouches[0].clientY : e.clientY;
+      dragClone.remove(); dragClone = null; dragEl.style.opacity = '1';
+      
+      const dropTarget = document.elementFromPoint(clientX, clientY);
+      if(dropTarget) {
+        const zone = dropTarget.closest('.dropzone');
+        if(zone) {
+          if (zone.classList.contains('bull-slot')) {
+            if (zone.children.length > 0 && zone.children[0] !== dragEl) {
+              poolAvailable.appendChild(zone.children[0]); // kick out existing
+            }
+            zone.appendChild(dragEl);
+          } else {
+            zone.appendChild(dragEl);
+          }
+          saveOpt1LayoutState();
+          sortBuckets();
+        }
+      }
+      dragEl = null;
+    }
+
+    function sortBuckets() {
+      [poolAvailable, poolCows, poolElim].forEach(pool => {
+        const arr = Array.from(pool.children);
+        arr.sort((a,b) => parseInt(a.dataset.val) - parseInt(b.dataset.val));
+        arr.forEach(node => pool.appendChild(node));
+      });
+    }
+
+    function saveOpt1LayoutState() {
+      gameState.sp.opt1Layout = {
+        available: Array.from(poolAvailable.children).map(c=>parseInt(c.dataset.val)),
+        cows: Array.from(poolCows.children).map(c=>parseInt(c.dataset.val)),
+        elim: Array.from(poolElim.children).map(c=>parseInt(c.dataset.val)),
+        bulls: poolBulls.map(b => b.children.length ? parseInt(b.children[0].dataset.val) : null)
+      };
+      saveGameState();
+    }
+
+    function updateOpt1CellVisuals(cell, state) {
+      cell.className = 'mg-cell'; cell.textContent = '';
+      if(state===1) { cell.classList.add('state-x'); cell.textContent = '❌'; }
+      if(state===2) { cell.classList.add('state-cow'); cell.textContent = '🟡'; }
+    }
+
+    // Option 2 Grid Logic
+    function handleOpt2ShortPress(r, c) {
+      const cellState = gameState.sp.opt2Cells[r][c];
+      if (cellState.b) return; // if it's a bull, short press does nothing
+      // check if it's under an auto-X blanket
+      if (isOpt2AutoX(r, c)) return; 
+      
+      cellState.m = (cellState.m + 1) % 3;
+      saveGameState(); renderOpt2Grid();
+    }
+
+    function handleOpt2LongPress(r, c) {
+      const cellState = gameState.sp.opt2Cells[r][c];
+      if (cellState.b) cellState.b = false; // toggle off
+      else {
+        // Clear any other bull in this row or col
+        for(let i=0; i<10; i++) gameState.sp.opt2Cells[i][c].b = false;
+        for(let j=0; j<4; j++) gameState.sp.opt2Cells[r][j].b = false;
+        cellState.b = true;
+      }
+      saveGameState(); renderOpt2Grid();
+    }
+
+    function isOpt2AutoX(r, c) {
+      for(let i=0; i<10; i++) if (i!==r && gameState.sp.opt2Cells[i][c].b) return true;
+      for(let j=0; j<4; j++) if (j!==c && gameState.sp.opt2Cells[r][j].b) return true;
+      return false;
+    }
+
+    function renderOpt2Grid() {
+      const cells = opt2Grid.querySelectorAll('.dg-cell');
+      cells.forEach(el => {
+        const r = parseInt(el.dataset.r); const c = parseInt(el.dataset.c);
+        const st = gameState.sp.opt2Cells[r][c];
+        el.className = 'dg-cell'; el.textContent = '';
+        if (st.b) { el.classList.add('state-bull'); el.textContent = '🟢'; }
+        else if (isOpt2AutoX(r, c)) { el.classList.add('state-auto-x'); el.textContent = '❌'; }
+        else if (st.m === 1) { el.classList.add('state-x'); el.textContent = '❌'; }
+        else if (st.m === 2) { el.classList.add('state-cow'); el.textContent = '🟡'; }
+      });
+    }
+
+    // UI Utilities
+    function applyTheme(themeName) { document.body.setAttribute('data-theme', themeName); document.getElementById('meta-theme-color').content = themeName === 'light' ? '#f8fafc' : (themeName === 'dark' ? '#121212' : '#1e293b'); }
+    function syncSettingsUI() { document.getElementById('setting-leading-zeros').checked = settings.allowLeadingZero; document.getElementById('setting-badge-style').value = settings.badgeStyle; document.getElementById('setting-theme').value = settings.theme; document.getElementById('setting-max-guesses').value = settings.maxGuesses; }
+    
+    // Stats build
     function buildVerticalHistogram(container, dataArray, isAbandoned) {
       container.innerHTML = '';
-      if (!dataArray || dataArray.length === 0) {
-        container.innerHTML = '<div style="width:100%;text-align:center;color:var(--text-muted);font-size:0.8rem;font-style:italic;align-self:center;">No records yet</div>';
-        return;
-      }
-      
-      // Buckets 1 to 10 and 11+
+      if (!dataArray || dataArray.length === 0) { container.innerHTML = '<div style="width:100%;text-align:center;color:var(--text-muted);font-size:0.8rem;font-style:italic;align-self:center;">No records yet</div>'; return; }
       const buckets = Array.from({length: 11}, (_, i) => ({ label: i < 10 ? String(i+1) : '11+', count: 0 }));
-      dataArray.forEach(val => {
-        let idx = val - 1;
-        if (idx < 0) idx = 0; // Map 0-guess abandons to the '1' bucket visually
-        if (idx > 10) idx = 10;
-        if (idx >= 0 && idx <= 10) buckets[idx].count++;
-      });
+      dataArray.forEach(val => { let idx = val - 1; if (idx < 0) idx = 0; if (idx > 10) idx = 10; if (idx >= 0 && idx <= 10) buckets[idx].count++; });
       const maxCount = Math.max(...buckets.map(b => b.count), 1);
-      
       buckets.forEach(b => {
-        const col = document.createElement('div');
-        col.className = 'histo-col';
-        const pct = (b.count / maxCount) * 100;
-        const barClass = isAbandoned ? 'histo-bar abandoned-bar' : 'histo-bar';
-        col.innerHTML = `
-          <div class="histo-count">${b.count > 0 ? b.count : ''}</div>
-          <div class="histo-bar-wrap">
-            <div class="${barClass}" style="height: ${pct}%;"></div>
-          </div>
-          <div class="histo-label-bot">${b.label}</div>
-        `;
+        const col = document.createElement('div'); col.className = 'histo-col';
+        col.innerHTML = `<div class="histo-count">${b.count > 0 ? b.count : ''}</div><div class="histo-bar-wrap"><div class="${isAbandoned ? 'histo-bar abandoned-bar' : 'histo-bar'}" style="height: ${(b.count / maxCount) * 100}%;"></div></div><div class="histo-label-bot">${b.label}</div>`;
         container.appendChild(col);
       });
     }
 
     function renderStatsUI() {
-      // Re-run self healing silently just before render to be safe if a game is actively playing
       const activeGameCount = (!gameState.isGameOver && gameState.secret) ? 1 : 0;
-      const minimumStarted = stats.gamesWon + stats.gamesLost + stats.gamesAbandoned + activeGameCount;
-      if (stats.gamesStarted < minimumStarted) {
-        stats.gamesStarted = minimumStarted;
-        saveStats();
-      }
-
-      const gs = stats.gamesStarted;
-      const gw = stats.gamesWon;
-      const gl = stats.gamesLost;
-      const ga = stats.gamesAbandoned;
-      const completed = gw + gl;
+      const minStarted = stats.gamesWon + stats.gamesLost + stats.gamesAbandoned + activeGameCount;
+      if (stats.gamesStarted < minStarted) { stats.gamesStarted = minStarted; saveStats(); }
+      const gs = stats.gamesStarted; const gw = stats.gamesWon; const gl = stats.gamesLost; const ga = stats.gamesAbandoned; const completed = gw + gl;
 
       document.getElementById('stat-started').textContent = gs;
       document.getElementById('stat-abandoned').textContent = ga;
       document.getElementById('stat-abandoned-pct').textContent = gs ? ` (${((ga/gs)*100).toFixed(1)}%)` : '';
-      
       document.getElementById('stat-lost').textContent = gl;
-      
       document.getElementById('stat-won').textContent = gw;
       document.getElementById('stat-won-pct-comp').textContent = completed ? ` (${((gw/completed)*100).toFixed(1)}% of completed)` : '';
       document.getElementById('stat-won-pct-start').textContent = gs ? ` (${((gw/gs)*100).toFixed(1)}% of started)` : '';
-      
       document.getElementById('stat-best').textContent = stats.bestScore !== null ? stats.bestScore : '-';
-
-      if (stats.historyWon.length > 0) {
-        document.getElementById('stat-avg-all').textContent = (stats.historyWon.reduce((a,b)=>a+b,0) / stats.historyWon.length).toFixed(1);
-      } else {
-        document.getElementById('stat-avg-all').textContent = '-';
-      }
-
+      document.getElementById('stat-avg-all').textContent = stats.historyWon.length > 0 ? (stats.historyWon.reduce((a,b)=>a+b,0) / stats.historyWon.length).toFixed(1) : '-';
       const last10 = stats.historyWon.slice(-10);
-      if (last10.length > 0) {
-        document.getElementById('stat-avg10').textContent = (last10.reduce((a,b)=>a+b,0) / last10.length).toFixed(1);
-      } else {
-        document.getElementById('stat-avg10').textContent = '-';
-      }
+      document.getElementById('stat-avg10').textContent = last10.length > 0 ? (last10.reduce((a,b)=>a+b,0) / last10.length).toFixed(1) : '-';
 
       buildVerticalHistogram(document.getElementById('histo-completed-container'), stats.historyWon, false);
       buildVerticalHistogram(document.getElementById('histo-abandoned-container'), stats.historyAbandoned, true);
     }
 
-    function syncSettingsUI() {
-      document.getElementById('setting-leading-zeros').checked = settings.allowLeadingZero;
-      document.getElementById('setting-badge-style').value = settings.badgeStyle;
-      document.getElementById('setting-theme').value = settings.theme;
-      document.getElementById('setting-max-guesses').value = settings.maxGuesses;
-    }
-
+    // Modal
     function showModal(title, msg, onConfirm, showCancel = true) {
       const modal = document.getElementById('app-modal');
-      document.getElementById('modal-title').textContent = title;
-      document.getElementById('modal-msg').textContent = msg;
-      const btnCancel = document.getElementById('modal-btn-cancel');
-      btnCancel.style.display = showCancel ? 'block' : 'none';
+      document.getElementById('modal-title').textContent = title; document.getElementById('modal-msg').textContent = msg;
+      const btnCancel = document.getElementById('modal-btn-cancel'); btnCancel.style.display = showCancel ? 'block' : 'none';
       modal.style.display = 'flex';
-      
-      const btnConfirmEl = document.getElementById('modal-btn-confirm');
-      btnConfirmEl.onclick = () => { modal.style.display = 'none'; if(onConfirm) onConfirm(); };
+      document.getElementById('modal-btn-confirm').onclick = () => { modal.style.display = 'none'; if(onConfirm) onConfirm(); };
       btnCancel.onclick = () => { modal.style.display = 'none'; };
     }
 
     // Listeners
-    slotBoxes.forEach(b => b.addEventListener('click', () => { gameState.activeSlot = parseInt(b.dataset.index, 10); updateInputSlotsDisplay(); }));
-    document.querySelectorAll('.key-btn').forEach(btn => btn.addEventListener('click', () => { if (!btn.disabled && btn.dataset.key) handleKeyInput(btn.dataset.key); }));
-    btnConfirm.addEventListener('click', submitGuess);
-
     document.getElementById('btn-new-game').addEventListener('click', () => {
-      if (!gameState.isGameOver && gameState.guesses.length > 0) {
-        showModal('Start New Game?', 'Abandon current game and mark as abandoned?', () => { abandonCurrentGame(); startNewGame(); });
-      } else startNewGame();
+      if (!gameState.isGameOver && gameState.guesses.length > 0) showModal('Start New Game?', 'Abandon current game and mark as abandoned?', () => { abandonCurrentGame(); startNewGame(); });
+      else startNewGame();
     });
-    btnResume.addEventListener('click', () => { renderGameUI(); showScreen('game'); });
+    btnResume.addEventListener('click', () => { renderGameUI(); buildScratchpad(); showScreen('game'); });
     document.getElementById('btn-settings').addEventListener('click', () => { syncSettingsUI(); showScreen('settings'); });
     document.getElementById('btn-stats').addEventListener('click', () => { renderStatsUI(); showScreen('stats'); });
     document.getElementById('btn-game-back').addEventListener('click', () => showScreen('menu'));
     document.getElementById('btn-settings-back').addEventListener('click', () => showScreen('menu'));
     document.getElementById('btn-stats-back').addEventListener('click', () => showScreen('menu'));
-    
-    document.getElementById('btn-game-restart').addEventListener('click', () => {
-      showModal('Abandon Game?', 'Quit current game and record it in abandoned stats?', () => { abandonCurrentGame(); showScreen('menu'); });
-    });
+    document.getElementById('btn-game-restart').addEventListener('click', () => { showModal('Abandon Game?', 'Quit current game and record it in abandoned stats?', () => { abandonCurrentGame(); showScreen('menu'); }); });
 
     document.getElementById('setting-leading-zeros').addEventListener('change', e => { settings.allowLeadingZero = e.target.checked; saveSettings(); updateInputSlotsDisplay(); });
     document.getElementById('setting-badge-style').addEventListener('change', e => { settings.badgeStyle = e.target.value; saveSettings(); renderGameUI(); });
@@ -636,12 +874,14 @@
     document.getElementById('btn-reset-stats').addEventListener('click', () => {
       showModal('Reset Statistics?', 'Erase all records, histograms, and clear active game data?', () => {
         stats = { gamesStarted: 0, gamesWon: 0, gamesLost: 0, gamesAbandoned: 0, bestScore: null, historyWon: [], historyAbandoned: [] };
-        gameState = { secret: '', guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: true };
+        gameState = { secret: '', guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: true, sp: JSON.parse(JSON.stringify(defaultSpState)) };
         saveStats(); saveGameState(); renderStatsUI(); btnResume.disabled = true;
       });
     });
-
-    window.addEventListener('DOMContentLoaded', () => { loadStoredData(); setTimeout(() => showScreen('menu'), 1200); });
+    
+    slotBoxes.forEach(b => b.addEventListener('click', () => { gameState.activeSlot = parseInt(b.dataset.index, 10); updateInputSlotsDisplay(); }));
+    document.querySelectorAll('.key-btn').forEach(btn => btn.addEventListener('click', () => { if (!btn.disabled && btn.dataset.key) handleKeyInput(btn.dataset.key); }));
+    btnConfirm.addEventListener('click', submitGuess);
   </script>
 </body>
 </html>

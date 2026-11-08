@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cowbull-cache-v2.1.1';
+const CACHE_NAME = 'cowbull-cache-v3.0';
 const ASSETS = [
   './',
   './index.html',
