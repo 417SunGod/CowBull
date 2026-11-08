@@ -356,6 +356,15 @@
           btnResume.disabled = false;
         }
       }
+
+      // Auto-heal legacy migration discrepancy
+      const activeGameCount = (!gameState.isGameOver && gameState.secret) ? 1 : 0;
+      const minimumStarted = stats.gamesWon + stats.gamesLost + stats.gamesAbandoned + activeGameCount;
+      if (stats.gamesStarted < minimumStarted) {
+        stats.gamesStarted = minimumStarted;
+        saveStats();
+      }
+
       syncSettingsUI();
     }
 
@@ -512,8 +521,9 @@
       const buckets = Array.from({length: 11}, (_, i) => ({ label: i < 10 ? String(i+1) : '11+', count: 0 }));
       dataArray.forEach(val => {
         let idx = val - 1;
+        if (idx < 0) idx = 0; // Map 0-guess abandons to the '1' bucket visually
         if (idx > 10) idx = 10;
-        if (idx >= 0) buckets[idx].count++;
+        if (idx >= 0 && idx <= 10) buckets[idx].count++;
       });
       const maxCount = Math.max(...buckets.map(b => b.count), 1);
       
@@ -534,6 +544,14 @@
     }
 
     function renderStatsUI() {
+      // Re-run self healing silently just before render to be safe if a game is actively playing
+      const activeGameCount = (!gameState.isGameOver && gameState.secret) ? 1 : 0;
+      const minimumStarted = stats.gamesWon + stats.gamesLost + stats.gamesAbandoned + activeGameCount;
+      if (stats.gamesStarted < minimumStarted) {
+        stats.gamesStarted = minimumStarted;
+        saveStats();
+      }
+
       const gs = stats.gamesStarted;
       const gw = stats.gamesWon;
       const gl = stats.gamesLost;
