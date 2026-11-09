@@ -66,16 +66,16 @@
     .btn-danger { background: #dc2626; border-color: #ef4444; color: #fff; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
     .credits { margin-top: auto; text-align: center; color: var(--text-muted); font-size: 0.8rem; padding-bottom: 10px; }
-    .nav-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; transition: all 0.3s ease; }
     .nav-btn { background: none; border: none; color: var(--accent); font-size: 1rem; font-weight: 600; cursor: pointer; }
 
     /* Game Screen */
-    .game-layout { display: flex; flex-direction: column; height: 100%; position: relative; }
+    .game-layout { display: flex; flex-direction: column; height: 100%; position: relative; padding: 20px; transition: padding 0.3s ease; }
     #guess-history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; padding-bottom: 10px; }
-    .guess-row { display: flex; align-items: center; justify-content: space-between; background: var(--card-bg); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); }
+    .guess-row { display: flex; align-items: center; justify-content: space-between; background: var(--card-bg); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); transition: all 0.3s ease; }
     .guess-idx { font-size: 0.85rem; color: var(--text-muted); width: 24px; }
-    .guess-digits { font-size: 1.25rem; font-weight: 700; letter-spacing: 6px; }
-    .guess-badges { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 600; }
+    .guess-digits { font-size: 1.25rem; font-weight: 700; letter-spacing: 6px; transition: all 0.3s ease; }
+    .guess-badges { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease; }
     .badge-bulls { color: var(--success); display: inline-flex; align-items: center; gap: 3px; }
     .badge-cows { color: var(--warning); display: inline-flex; align-items: center; gap: 3px; }
     .dot-bull { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--success); }
@@ -128,7 +128,7 @@
 
     /* Scratchpad Drawer */
     #scratchpad-drawer {
-      position: absolute; right: 0; top: 0; bottom: 0; width: 78%; max-width: 340px;
+      position: absolute; right: 0; top: 0; bottom: 0; width: 72%; max-width: 340px;
       background: var(--drawer-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border-left: 1px solid var(--border); box-shadow: -4px 0 15px rgba(0,0,0,0.3);
       transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -141,10 +141,25 @@
       width: 20px; height: 60px; background: var(--card-bg); border: 1px solid var(--border); border-right: none;
       border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center;
       box-shadow: -4px 0 8px rgba(0,0,0,0.15); cursor: pointer; color: var(--text-muted); z-index: 101;
+      touch-action: none; /* Crucial for unified pointer drag */
     }
     #scratchpad-tab::before { content: '⋮'; font-size: 1.4rem; font-weight: bold; line-height: 1; }
     #scratchpad-tab.bounce { animation: pulse 2s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); } 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); } }
+
+    /* When drawer is open, adjust left side (Game Screen) layout */
+    #screen-game.drawer-open .keypad-container,
+    #screen-game.drawer-open .input-slot-row { display: none; }
+    #screen-game.drawer-open .nav-bar { padding-bottom: 6px; margin-bottom: 6px; }
+    #screen-game.drawer-open .game-layout { padding: 20px 10px 20px 8px; width: 28%; }
+    
+    #screen-game.drawer-open .guess-row {
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 8px 2px; gap: 4px;
+    }
+    #screen-game.drawer-open .guess-idx { display: none; }
+    #screen-game.drawer-open .guess-digits { font-size: 1.05rem; letter-spacing: 1px; }
+    #screen-game.drawer-open .guess-badges { flex-direction: column; font-size: 0.75rem; gap: 2px; }
 
     .sp-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); }
     .sp-title { font-weight: 700; font-size: 1.05rem; }
@@ -201,7 +216,7 @@
     .grid-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
     .deduction-grid { display: grid; grid-template-columns: 24px repeat(4, 1fr); gap: 2px; background: var(--border); border: 2px solid var(--border); border-radius: 8px; padding: 2px; }
     .dg-header { display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); background: var(--card-bg); padding: 6px 0; border-radius: 4px; }
-    .dg-row-label { display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; color: var(--text); background: var(--card-bg); border-radius: 4px; }
+    .dg-row-label { display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; color: var(--text); background: var(--card-bg); border-radius: 4px; cursor: pointer; transition: opacity 0.2s, color 0.2s; }
     .dg-cell { background: var(--bg); display: flex; align-items: center; justify-content: center; height: 38px; border-radius: 4px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: background 0.15s; }
     .dg-cell.state-x { color: #ef4444; }
     .dg-cell.state-auto-x { color: #ef4444; opacity: 0.4; pointer-events: none; }
@@ -223,7 +238,7 @@
       <div class="menu-header">
         <h1>Bulls & Cows</h1>
         <p>A Clean PWA Deduction Game</p>
-        <div class="version-tag">v3.1</div>
+        <div class="version-tag">v3.2</div>
       </div>
       <div class="menu-btn-group">
         <button id="btn-resume" class="btn" disabled>Resume Game</button>
@@ -236,7 +251,7 @@
 
     <!-- Screen: Game -->
     <div id="screen-game" class="screen" style="padding: 0;">
-      <div style="padding: 20px; display: flex; flex-direction: column; height: 100%;">
+      <div class="game-layout">
         <div class="nav-bar">
           <button id="btn-game-back" class="nav-btn">‹ Menu</button>
           <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted);" id="game-round-indicator">Guesses: 0</span>
@@ -307,7 +322,7 @@
 
         <!-- Option 2: Deduction Grid -->
         <div id="sp-view-opt2" class="sp-content">
-          <div class="grid-desc"><b>Tap</b>: X / 🟡<br/><b>Long-press</b>: 🟢 (Auto-clears row & col)</div>
+          <div class="grid-desc"><b>Tap cell</b>: X / 🟡 <b>Long-press</b>: 🟢 (Auto-clears)<br/><b>Tap number</b>: ❌ (Crosses out entire row)</div>
           <div class="deduction-grid" id="opt2-grid">
             <div class="dg-header"></div><div class="dg-header">S1</div><div class="dg-header">S2</div><div class="dg-header">S3</div><div class="dg-header">S4</div>
             <!-- Cells injected by JS -->
@@ -336,7 +351,7 @@
       </div>
       <div class="settings-group">
         <div class="setting-row">
-          <div><div class="setting-label">Maximum Guesses</div><div class="setting-desc">Limit guesses before game over</div></div>
+          <div><div class="setting-label">Maximum Guesses</div><div class="setting-desc">Limit guesses before game over</div><div class="setting-desc" id="setting-max-guesses-note" style="color:var(--warning); display:none; margin-top:4px;">Cannot be changed during an active game.</div></div>
           <select id="setting-max-guesses">
             <option value="10">10</option>
             <option value="infinite">Infinite</option>
@@ -422,7 +437,8 @@
       opt1Layout: { available: [0,1,2,3,4,5,6,7,8,9], cows: [], elim: [], bulls: [null, null, null, null] },
       opt1GridOn: false,
       opt1Cells: Array(10).fill(null).map(()=>Array(4).fill(0)), // 0:blank, 1:X, 2:🟡
-      opt2Cells: Array(10).fill(null).map(()=>Array(4).fill({m:0, b:false})) // m:manual(0,1,2), b:bull
+      opt2Cells: Array(10).fill(null).map(()=>Array(4).fill({m:0, b:false})), // m:manual(0,1,2), b:bull
+      opt2RowX: Array(10).fill(false) // row crossout toggle
     };
 
     let gameState = { secret: '', guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: false, sp: JSON.parse(JSON.stringify(defaultSpState)) };
@@ -477,6 +493,7 @@
       if (savedGame) {
         gameState = JSON.parse(savedGame);
         if (!gameState.sp) gameState.sp = JSON.parse(JSON.stringify(defaultSpState));
+        if (!gameState.sp.opt2RowX) gameState.sp.opt2RowX = Array(10).fill(false); // migration safeguard
         if (!gameState.isGameOver && gameState.secret) btnResume.disabled = false;
       }
       
@@ -493,7 +510,7 @@
     }
     function saveSettings() { localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings)); }
     function saveStats() { localStorage.setItem(STORAGE_KEY_STATS, JSON.stringify(stats)); }
-    function showScreen(name) { Object.values(screens).forEach(s => s.classList.remove('active')); screens[name].classList.add('active'); drawer.classList.remove('open'); }
+    function showScreen(name) { Object.values(screens).forEach(s => s.classList.remove('active')); screens[name].classList.add('active'); toggleDrawer(false); }
 
     // Logic
     function generateSecret(allowZero) {
@@ -514,13 +531,13 @@
 
     function startNewGame() {
       gameState = { secret: generateSecret(settings.allowLeadingZero), guesses: [], currentGuess: ['', '', '', ''], activeSlot: 0, isGameOver: false, sp: JSON.parse(JSON.stringify(defaultSpState)) };
-      stats.gamesStarted++; saveStats(); saveGameState(); renderGameUI(); buildScratchpad(); showScreen('game');
+      stats.gamesStarted++; saveStats(); saveGameState(); renderGameUI(); buildScratchpad(); showScreen('game'); syncSettingsUI();
     }
 
     function abandonCurrentGame() {
       if (!gameState.isGameOver && gameState.secret) {
         stats.gamesAbandoned++; stats.historyAbandoned.push(gameState.guesses.length);
-        gameState.isGameOver = true; saveStats(); saveGameState();
+        gameState.isGameOver = true; saveStats(); saveGameState(); syncSettingsUI();
       }
     }
 
@@ -581,11 +598,11 @@
       if (score.b === 4) {
         gameState.isGameOver = true; stats.gamesWon++;
         if (stats.bestScore === null || gameState.guesses.length < stats.bestScore) stats.bestScore = gameState.guesses.length;
-        stats.historyWon.push(gameState.guesses.length); saveStats(); saveGameState();
+        stats.historyWon.push(gameState.guesses.length); saveStats(); saveGameState(); syncSettingsUI();
         showModal('Victory!', `Cracked ${gameState.secret} in ${gameState.guesses.length} guesses!`, () => showScreen('menu'), false);
       } else if (settings.maxGuesses !== 'infinite' && gameState.guesses.length >= parseInt(settings.maxGuesses, 10)) {
-        gameState.isGameOver = true; stats.gamesLost++; saveStats(); saveGameState();
-        showModal('Game Over', `Out of guesses. The secret was ${gameState.secret}.`, () => showScreen('menu'), false);
+        gameState.isGameOver = true; stats.gamesLost++; saveStats(); saveGameState(); syncSettingsUI();
+        showModal('Game Over', `Out of guesses. The secret number was ${gameState.secret}.`, () => showScreen('menu'), false);
       } else saveGameState();
     }
 
@@ -593,15 +610,44 @@
     // SCRATCHPAD LOGIC
     // ----------------------------------------------------
     let dragEl = null, dragClone = null, offsetX = 0, offsetY = 0;
+    let drawerStartX = 0, isDrawerDragging = false, dragStartWasOpen = false;
     
     function initScratchpadDOM() {
       btnOpt1.onclick = () => { btnOpt1.classList.add('active'); btnOpt2.classList.remove('active'); viewOpt1.classList.add('active'); viewOpt2.classList.remove('active'); };
       btnOpt2.onclick = () => { btnOpt2.classList.add('active'); btnOpt1.classList.remove('active'); viewOpt2.classList.add('active'); viewOpt1.classList.remove('active'); };
       
-      tab.onclick = () => { 
-        drawer.classList.toggle('open'); 
-        if (drawer.classList.contains('open')) tab.classList.remove('bounce');
-      };
+      // Drag toggle for drawer
+      tab.addEventListener('pointerdown', (e) => {
+        drawerStartX = e.clientX;
+        isDrawerDragging = true;
+        dragStartWasOpen = drawer.classList.contains('open');
+        drawer.style.transition = 'none';
+        tab.setPointerCapture(e.pointerId);
+      });
+      tab.addEventListener('pointermove', (e) => {
+        if (!isDrawerDragging) return;
+        const deltaX = e.clientX - drawerStartX;
+        const drawerWidth = drawer.offsetWidth;
+        let translateX = dragStartWasOpen ? Math.max(0, deltaX) : Math.max(0, drawerWidth + deltaX);
+        drawer.style.transform = `translateX(${translateX}px)`;
+      });
+      tab.addEventListener('pointerup', (e) => {
+        if (!isDrawerDragging) return;
+        isDrawerDragging = false;
+        tab.releasePointerCapture(e.pointerId);
+        drawer.style.transition = ''; 
+        
+        const deltaX = e.clientX - drawerStartX;
+        const drawerWidth = drawer.offsetWidth;
+        const threshold = drawerWidth * 0.3; 
+        
+        if (Math.abs(deltaX) < 10) { toggleDrawer(); return; } // just a tap
+        if (dragStartWasOpen) {
+          if (deltaX > threshold) toggleDrawer(false); else toggleDrawer(true);
+        } else {
+          if (deltaX < -threshold) toggleDrawer(true); else toggleDrawer(false);
+        }
+      });
 
       cowGridToggle.onchange = (e) => {
         gameState.sp.opt1GridOn = e.target.checked;
@@ -611,6 +657,11 @@
 
       for(let r=0; r<10; r++) {
         const rowLbl = document.createElement('div'); rowLbl.className = 'dg-row-label'; rowLbl.textContent = r;
+        rowLbl.onclick = () => {
+          gameState.sp.opt2RowX[r] = !gameState.sp.opt2RowX[r];
+          saveGameState();
+          renderOpt2Grid();
+        };
         opt2Grid.appendChild(rowLbl);
         for(let c=0; c<4; c++) {
           const cell = document.createElement('div'); cell.className = 'dg-cell';
@@ -638,6 +689,21 @@
       window.addEventListener('touchmove', handleDragMove, {passive: false});
       window.addEventListener('mouseup', handleDragEnd);
       window.addEventListener('touchend', handleDragEnd);
+    }
+
+    function toggleDrawer(forceOpen) {
+      const isCurrentlyOpen = drawer.classList.contains('open');
+      const willBeOpen = forceOpen !== undefined ? forceOpen : !isCurrentlyOpen;
+      
+      if (willBeOpen) {
+        drawer.classList.add('open');
+        tab.classList.remove('bounce');
+        document.getElementById('screen-game').classList.add('drawer-open');
+      } else {
+        drawer.classList.remove('open');
+        document.getElementById('screen-game').classList.remove('drawer-open');
+      }
+      drawer.style.transform = ''; 
     }
 
     function buildScratchpad() {
@@ -750,14 +816,12 @@
     }
 
     function renderOpt1MiniGrids() {
-      const bulls = gameState.sp.opt1Layout.bulls; // e.g. [5, null, 2, null]
+      const bulls = gameState.sp.opt1Layout.bulls; 
       document.querySelectorAll('.drag-tile').forEach(tile => {
         const digit = parseInt(tile.dataset.val);
         tile.querySelectorAll('.mg-cell').forEach((cell, col) => {
            let st = gameState.sp.opt1Cells[digit][col];
            cell.className = 'mg-cell'; cell.textContent = '';
-           
-           // Auto-X logic: If there's a bull in this col, and it's not THIS digit, X it out.
            if (bulls[col] !== null && bulls[col] !== digit) {
              cell.classList.add('state-auto-x');
              cell.textContent = '❌';
@@ -792,6 +856,7 @@
     }
 
     function isOpt2AutoX(r, c) {
+      if (gameState.sp.opt2RowX[r]) return true;
       for(let i=0; i<10; i++) if (i!==r && gameState.sp.opt2Cells[i][c].b) return true;
       for(let j=0; j<4; j++) if (j!==c && gameState.sp.opt2Cells[r][j].b) return true;
       return false;
@@ -808,11 +873,34 @@
         else if (st.m === 1) { el.classList.add('state-x'); el.textContent = '❌'; }
         else if (st.m === 2) { el.classList.add('state-cow'); el.textContent = '🟡'; }
       });
+      
+      const rowLbls = opt2Grid.querySelectorAll('.dg-row-label');
+      for(let r=0; r<10; r++) {
+         if (gameState.sp.opt2RowX[r]) {
+           rowLbls[r].style.opacity = '0.3';
+           rowLbls[r].style.textDecoration = 'line-through';
+           rowLbls[r].style.color = '#ef4444';
+         } else {
+           rowLbls[r].style.opacity = '1';
+           rowLbls[r].style.textDecoration = 'none';
+           rowLbls[r].style.color = 'var(--text)';
+         }
+      }
     }
 
     // UI Utilities
     function applyTheme(themeName) { document.body.setAttribute('data-theme', themeName); document.getElementById('meta-theme-color').content = themeName === 'light' ? '#f8fafc' : (themeName === 'dark' ? '#121212' : '#1e293b'); }
-    function syncSettingsUI() { document.getElementById('setting-leading-zeros').checked = settings.allowLeadingZero; document.getElementById('setting-badge-style').value = settings.badgeStyle; document.getElementById('setting-theme').value = settings.theme; document.getElementById('setting-max-guesses').value = settings.maxGuesses; }
+    
+    function syncSettingsUI() { 
+      document.getElementById('setting-leading-zeros').checked = settings.allowLeadingZero; 
+      document.getElementById('setting-badge-style').value = settings.badgeStyle; 
+      document.getElementById('setting-theme').value = settings.theme; 
+      document.getElementById('setting-max-guesses').value = settings.maxGuesses; 
+      
+      const activeGame = (!gameState.isGameOver && gameState.secret !== '');
+      document.getElementById('setting-max-guesses').disabled = activeGame;
+      document.getElementById('setting-max-guesses-note').style.display = activeGame ? 'block' : 'none';
+    }
     
     // Stats build
     function buildVerticalHistogram(container, dataArray, isAbandoned) {
