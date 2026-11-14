@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cowbull-cache-v3.2';
+const CACHE_NAME = 'cowbull-cache-v3.3';
 const ASSETS = [
   './',
   './index.html',
@@ -27,6 +27,6 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((response) => response || fetch(e.request))
+    caches.match(e.request, { ignoreSearch: true }).then((response) => response || fetch(e.request))
   );
 });
